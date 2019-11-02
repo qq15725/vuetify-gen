@@ -29,5 +29,6 @@
     "*.sass",
     "*.scss",
     "*.css"
-  ]
+  ],
+  "gitHead": "7a93a8d714eff5703b0e31cdb62db433ca65364d"
 }
