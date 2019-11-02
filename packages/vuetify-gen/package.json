@@ -6,12 +6,15 @@
     "name": "weng",
     "email": "157215725@qq.com"
   },
-  "main": "dist/vuetify-gen.js",
-  "module": "dist/vuetify-gen.js",
+  "main": "lib/vuetify-gen.js",
+  "module": "lib/vuetify-gen.js",
   "files": [
     "src/",
-    "dist/"
+    "lib/"
   ],
+  "scripts": {
+    "build": "node build/build-lib.js"
+  },
   "keywords": [
     "vuetify"
   ],
@@ -20,6 +23,20 @@
     "type": "git",
     "url": "git+https://github.com/qq15725/vuetify-gen.git",
     "directory": "packages/vuetify-gen"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.5.5",
+    "@babel/core": "^7.5.5",
+    "@babel/plugin-proposal-object-rest-spread": "^7.5.5",
+    "@babel/preset-env": "^7.5.5",
+    "autoprefixer": "^9.6.1",
+    "babel-loader": "^8.0.6",
+    "babel-plugin-detective": "^2.0.0",
+    "babel-plugin-module-resolver": "^3.2.0",
+    "babel-plugin-transform-define": "^1.3.1",
+    "babel-polyfill": "^6.26.0",
+    "cross-env": "^5.2.0",
+    "fibers": "^4.0.1"
   },
   "peerDependencies": {
     "vue": "^2.6.10",
