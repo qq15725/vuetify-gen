@@ -1,0 +1,33 @@
+{
+  "name": "vuetify-gen",
+  "description": "vuetify generate",
+  "version": "0.0.1",
+  "author": {
+    "name": "weng",
+    "email": "157215725@qq.com"
+  },
+  "main": "dist/vuetify-gen.js",
+  "module": "dist/vuetify-gen.js",
+  "files": [
+    "src/",
+    "dist/"
+  ],
+  "keywords": [
+    "vuetify"
+  ],
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/qq15725/vuetify-gen.git",
+    "directory": "packages/vuetify-gen"
+  },
+  "peerDependencies": {
+    "vue": "^2.6.10",
+    "vuetify": "^2.1.9"
+  },
+  "sideEffects": [
+    "*.sass",
+    "*.scss",
+    "*.css"
+  ]
+}

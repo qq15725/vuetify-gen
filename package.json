@@ -1,24 +1,25 @@
 {
-  "name": "vuetify-gen",
-  "version": "0.1.0",
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint"
-  },
-  "dependencies": {
-    "core-js": "^3.3.2",
-    "vue": "^2.6.10"
+    "build": "npm run build:VConfirm",
+    "lint": "vue-cli-service lint",
+    "build:VConfirm": "vue-cli-service build --target lib --name VConfirm --dest packages/vuetify-gen/dist/components/VConfirm packages/vuetify-gen/src/components/VConfirm/index.js"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "^4.0.0",
     "@vue/cli-plugin-eslint": "^4.0.0",
     "@vue/cli-service": "^4.0.0",
     "babel-eslint": "^10.0.3",
+    "core-js": "^3.3.2",
     "eslint": "^5.16.0",
     "eslint-plugin-vue": "^5.0.0",
-    "vue-template-compiler": "^2.6.10"
+    "lerna": "^3.15.0",
+    "sass": "^1.22.10",
+    "sass-loader": "^7.3.1",
+    "vue": "^2.6.10",
+    "vue-template-compiler": "^2.6.10",
+    "vuetify": "^2.1.9"
   },
   "eslintConfig": {
     "root": true,
@@ -42,5 +43,6 @@
   "browserslist": [
     "> 1%",
     "last 2 versions"
-  ]
+  ],
+  "name": "vuetify-gen"
 }
