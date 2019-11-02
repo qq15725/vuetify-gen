@@ -73,35 +73,37 @@ export default baseMixins.extend({
             }, ['info']),
             this.title
           ]),
-          this.$createElement(VDivider),
-          this.$createElement(VCardActions, {
-            class: 'justify-end'
-          }, [
-            this.$createElement(VBtn, {
-              props: {
-                color: 'primary',
-                small: true,
-                dark: true,
-                depressed: true
-              },
-              on: {
-                click: this.onOk
-              }
-            }, [this.okText || '确定']),
-            this.$createElement(VBtn, {
-              props: {
-                color: 'primary',
-                small: true,
-                dark: true,
-                depressed: true,
-                outlined: true
-              },
-              on: {
-                click: this.onCancel
-              }
-            }, [this.cancelText || '取消']),
-          ]),
-        ])
+        ]),
+        this.$createElement(VDivider, {
+          class: 'mx-3'
+        }),
+        this.$createElement(VCardActions, {
+          class: 'justify-end'
+        }, [
+          this.$createElement(VBtn, {
+            props: {
+              color: 'primary',
+              small: true,
+              dark: true,
+              depressed: true
+            },
+            on: {
+              click: this.onOk
+            }
+          }, [this.okText || '确定']),
+          this.$createElement(VBtn, {
+            props: {
+              color: 'primary',
+              small: true,
+              dark: true,
+              depressed: true,
+              outlined: true
+            },
+            on: {
+              click: this.onCancel
+            }
+          }, [this.cancelText || '取消']),
+        ]),
       ])
     ])
   }
