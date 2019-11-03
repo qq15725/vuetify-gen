@@ -1,6 +1,8 @@
 import VConfirm from './VConfirm'
 import VConfirmPlugin from './VConfirmPlugin'
 
-export { VConfirm, VConfirmPlugin }
+VConfirm.install = VConfirmPlugin.install
+
+export { VConfirm }
 
 export default VConfirm

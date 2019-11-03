@@ -20,7 +20,6 @@ export default baseMixins.extend({
     title: String,
     okText: String,
     cancelText: String,
-    activatorText: String,
     disabled: Boolean,
     persistent: {
       type: Boolean,

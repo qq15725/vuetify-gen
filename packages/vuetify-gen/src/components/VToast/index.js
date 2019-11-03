@@ -1,6 +1,8 @@
 import VToast from './VToast'
 import VToastPlugin from './VToastPlugin'
 
-export { VToast, VToastPlugin }
+VToast.install = VToastPlugin.install
+
+export { VToast }
 
 export default VToast
