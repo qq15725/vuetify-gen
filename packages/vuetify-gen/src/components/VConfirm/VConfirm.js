@@ -58,26 +58,21 @@ export default baseMixins.extend({
       scopedSlots: this.$scopedSlots
     }, [
       gen(VCard, [
-
         gen(VCardTitle, {
           class: 'body-2'
         }, [
-          gen('div', [
-            gen(VIcon, {
-              props: {
-                size: 22,
-                color: 'tertiary'
-              },
-              class: 'mr-2'
-            }, ['info']),
-            this.title
-          ]),
+          gen(VIcon, {
+            props: {
+              size: 22,
+              color: 'tertiary'
+            },
+            class: 'mr-2'
+          }, ['info']),
+          gen('span', this.title)
         ]),
-
         gen(VDivider, {
           class: 'mx-3'
         }),
-
         gen(VCardActions, {
           class: 'justify-end'
         }, [
@@ -92,7 +87,6 @@ export default baseMixins.extend({
               click: this.onOk
             }
           }, [this.okText || '确定']),
-
           gen(VBtn, {
             props: {
               color: 'primary',
