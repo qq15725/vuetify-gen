@@ -22,15 +22,25 @@ export default baseMixins.extend({
     cancelText: String,
     activatorText: String,
     disabled: Boolean,
-    persistent: Boolean,
+    persistent: {
+      type: Boolean,
+      default: true
+    },
     ok: Function,
     cancel: Function
+  },
+  data () {
+    return {
+      resolve: null,
+      reject: null
+    }
   },
   methods: {
     onOk () {
       if (this.ok) {
         this.ok()
       } else {
+        this.resolve && this.resolve(this)
         this.$emit('ok')
       }
       this.isActive = false
@@ -39,9 +49,14 @@ export default baseMixins.extend({
       if (this.cancel) {
         this.cancel()
       } else {
+        this.reject && this.reject(new Error('cancel'))
         this.$emit('cancel')
       }
       this.isActive = false
+    },
+    promise (resolve, reject) {
+      this.resolve = resolve
+      this.reject = reject
     }
   },
   render (gen) {

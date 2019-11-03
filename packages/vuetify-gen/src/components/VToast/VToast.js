@@ -14,22 +14,25 @@ const baseMixins = mixins(
 export default baseMixins.extend({
   name: 'v-toast',
   props: {
-    text: String,
-    timeout: {
+    message: String,
+    duration: {
       type: Number,
-      default: 2000
-    }
+      default: 3000
+    },
+    overlay: Boolean
   },
   mounted () {
     this.isActive = true
-    setTimeout(() => this.isActive = false, this.timeout)
+    this.duration > 0 && setTimeout(() => this.isActive = false, this.duration)
   },
   render (gen) {
     return gen(VDialog, {
       props: {
-        maxWidth: 140,
+        width: 'fit-content',
+        maxWidth: '70%',
         value: this.isActive,
-        hideOverlay: true
+        hideOverlay: !this.overlay,
+        persistent: true
       },
       on: {
         input: val => this.isActive = val
@@ -38,14 +41,13 @@ export default baseMixins.extend({
     }, [
       gen(VCard, {
         props: {
-          rounded: true,
+          minWidth: 96,
           color: 'rgba(0, 0, 0, .6)'
-        },
-        style: 'letter-spacing: 2px;'
+        }
       }, [
         gen(VCardText, {
-          class: 'pa-2 white--text font-weight-bold text-center'
-        }, this.text)
+          class: 'py-2 px-3 white--text font-weight-bold text-center'
+        }, this.message)
       ])
     ])
   }
