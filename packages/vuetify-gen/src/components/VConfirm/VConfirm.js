@@ -44,8 +44,8 @@ export default baseMixins.extend({
       this.isActive = false
     }
   },
-  render () {
-    return this.$createElement(VDialog, {
+  render (gen) {
+    return gen(VDialog, {
       props: {
         maxWidth: 400,
         value: this.isActive,
@@ -53,18 +53,17 @@ export default baseMixins.extend({
         persistent: this.persistent
       },
       on: {
-        input (val) {
-          this.isActive = val
-        }
+        input: val => this.isActive = val
       },
       scopedSlots: this.$scopedSlots
     }, [
-      this.$createElement(VCard, [
-        this.$createElement(VCardTitle, {
+      gen(VCard, [
+
+        gen(VCardTitle, {
           class: 'body-2'
         }, [
-          this.$createElement('div', [
-            this.$createElement(VIcon, {
+          gen('div', [
+            gen(VIcon, {
               props: {
                 size: 22,
                 color: 'tertiary'
@@ -74,13 +73,15 @@ export default baseMixins.extend({
             this.title
           ]),
         ]),
-        this.$createElement(VDivider, {
+
+        gen(VDivider, {
           class: 'mx-3'
         }),
-        this.$createElement(VCardActions, {
+
+        gen(VCardActions, {
           class: 'justify-end'
         }, [
-          this.$createElement(VBtn, {
+          gen(VBtn, {
             props: {
               color: 'primary',
               small: true,
@@ -91,7 +92,8 @@ export default baseMixins.extend({
               click: this.onOk
             }
           }, [this.okText || '确定']),
-          this.$createElement(VBtn, {
+
+          gen(VBtn, {
             props: {
               color: 'primary',
               small: true,
