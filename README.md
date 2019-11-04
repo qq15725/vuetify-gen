@@ -1,29 +1,52 @@
-# vuetify-gen
 
-## Project setup
+## install
+ 
 ```
-npm install
-```
-
-### Compiles and hot-reloads for development
-```
-npm run serve
+npm install vuetify-gen --save
 ```
 
-### Compiles and minifies for production
+## create vuetify-gen.js
+
 ```
-npm run build
+import Vue from 'vue'
+import vuetify from './vuetify'
+import * as components from 'vuetify-gen/lib/components'
+import vuetifyGen from 'vuetify-gen'
+
+Vue.use(vuetifyGen, {
+  vuetify,
+  components
+})
 ```
 
-### Run your tests
-```
-npm run test
-```
+## use 
 
-### Lints and fixes files
 ```
-npm run lint
-```
+// gen toast
+this.$toast('toast')
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+
+// gen confirm
+this.$confirm('confirm').then(() => { 
+  console.log('ok') 
+}).catch(() => {
+  console.log('cancel') 
+})
+
+
+// gen form
+this.$form({
+  title: 'form title',
+  items: [ 
+    {
+      is: 'v-text-field',
+      name: 'username',
+      label: 'username label'
+    }   
+  ]
+}).then(() => { 
+  console.log('submit') 
+}).catch(() => {
+  console.log('cancel') 
+})
+```
