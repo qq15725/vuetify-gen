@@ -42,7 +42,9 @@ this.$form({
     {
       is: 'v-text-field',
       name: 'username',
-      label: 'username label'
+      props: {
+        label: 'username label'
+      }
     }   
   ]
 }).then(() => { 
