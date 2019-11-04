@@ -16,6 +16,7 @@ const baseMixins = mixins(
 )
 
 export default baseMixins.extend({
+  name: 'v-confirm',
   props: {
     title: String,
     okText: String,

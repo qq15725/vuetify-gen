@@ -7,6 +7,7 @@ import { getObjectValueByPath } from 'vuetify/lib/util/helpers'
 
 export default {
   inheritAttrs: false,
+  name: 'v-form-gen',
   props: {
     lazyValidation: {
       type: Boolean,
