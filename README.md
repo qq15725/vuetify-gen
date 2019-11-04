@@ -47,8 +47,8 @@ this.$form({
       }
     }   
   ]
-}).then(() => { 
-  console.log('submit') 
+}).then(({ username }) => { 
+  console.log('submit', username) 
 }).catch(() => {
   console.log('cancel') 
 })
