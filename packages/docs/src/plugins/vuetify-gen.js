@@ -1,15 +1,9 @@
 import Vue from 'vue'
 import vuetify from './vuetify'
-import { VConfirm, VToast, VFormGen } from 'vuetify-gen'
+import * as components from 'vuetify-gen/lib/components'
+import vuetifyGen from 'vuetify-gen'
 
-Vue.use(VConfirm, {
-  vuetify
-})
-
-Vue.use(VToast, {
-  vuetify
-})
-
-Vue.use(VFormGen, {
-  vuetify
+Vue.use(vuetifyGen, {
+  vuetify,
+  components
 })

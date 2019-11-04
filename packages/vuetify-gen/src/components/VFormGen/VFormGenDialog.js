@@ -18,6 +18,7 @@ const baseMixins = mixins(toggleable)
 
 export default baseMixins.extend({
   inheritAttrs: false,
+  name: 'v-form-gen-dialog',
   props: {
     value: Boolean,
     maxWidth: [String, Number],
@@ -112,7 +113,7 @@ export default baseMixins.extend({
             }
           }, gen(VIcon, 'close'))
         ]),
-        gen(VDivider, { class: 'mx-3' }),
+        gen(VDivider),
         gen(VCardText, {
           class: ['pa-3']
         }, [
@@ -131,10 +132,10 @@ export default baseMixins.extend({
             this.$slots ? this.$slots.default : ''
           ])
         ]),
-        gen(VDivider, { class: 'mx-3' }),
+        gen(VDivider),
         gen(VCardActions, {
           class: [
-            'justify-end', 'py-4'
+            'justify-end'
           ]
         }, [
           gen(VBtn, {

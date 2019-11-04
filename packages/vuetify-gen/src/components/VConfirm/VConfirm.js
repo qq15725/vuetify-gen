@@ -85,9 +85,7 @@ export default baseMixins.extend({
           }, ['info']),
           gen('span', this.title)
         ]),
-        gen(VDivider, {
-          class: 'mx-3'
-        }),
+        gen(VDivider),
         gen(VCardActions, {
           class: 'justify-end'
         }, [

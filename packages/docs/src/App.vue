@@ -2,7 +2,9 @@
 	<v-app>
 		<v-content>
 			<v-container>
-				<v-row>
+				<v-row
+					align="center"
+				>
 					<template v-for="item in items">
 						<v-col :key="item.value" cols="auto">
 							<v-btn color="primary" text @click="test(item)">{{ item.label }}</v-btn>
@@ -10,7 +12,7 @@
 					</template>
 
 					<v-col cols="auto">
-						<v-date-time-picker placeholder="选择日期时间" v-model="dateTime"></v-date-time-picker>
+						<v-date-time-picker hide-details placeholder="选择日期时间" v-model="dateTime"></v-date-time-picker>
 					</v-col>
 				</v-row>
 			</v-container>
@@ -49,9 +51,7 @@
               {
                 name: 'name',
                 is: VTextField,
-                props: {
-                  label: 'asdsad'
-                }
+                props: {}
               }
             ]
           }
