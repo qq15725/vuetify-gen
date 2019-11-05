@@ -1,6 +1,6 @@
 {
   "name": "vuetifyjs-gen.com",
-  "version": "0.0.12",
+  "version": "0.0.13",
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
@@ -12,7 +12,7 @@
     "material-design-icons-iconfont": "^5.0.1",
     "vue": "^2.6.10",
     "vuetify": "^2.1.0",
-    "vuetify-gen": "^0.0.12"
+    "vuetify-gen": "^0.0.13"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "^4.0.0",
