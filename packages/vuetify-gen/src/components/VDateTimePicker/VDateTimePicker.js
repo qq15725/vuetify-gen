@@ -19,7 +19,7 @@ export default {
   inheritAttrs: false,
   name: 'v-date-time-picker',
   props: {
-    value: String,
+    value: [String, Array],
     disabled: Boolean,
     maxWidth: {
       type: [Number, String],
@@ -31,32 +31,49 @@ export default {
     },
     max: String,
     min: String,
-    allowedDates: Function
+    allowedDates: Function,
+    range: Boolean
   },
   data () {
-    const [date, time] = (this.value || '').split(' ')
+    let date, time
+    if (this.range) {
+      date = this.value || []
+    } else {
+      [date, time] = (this.value || '').split(' ')
+    }
     return {
-      date: date || '',
-      time: time || '',
+      date: date || null,
+      time: time || null,
       tab: 0,
       isActive: false
     }
   },
   methods: {
     submit () {
-      this.$emit('input', `${this.date} ${this.time}`)
+      if (this.range) {
+        this.$emit('input', this.date)
+      } else {
+        this.$emit('input', `${this.date} ${this.time}`)
+      }
       this.isActive = false
     },
-    now () {
+    genNow () {
       const now = new Date()
       this.date = parseTime(now, '{y}-{m}-{d}')
       this.time = parseTime(now, '{h}:{i}')
+    },
+    genDays (day = 30) {
+      const now = new Date()
+      this.date = [
+        parseTime(now, '{y}-{m}-{d}'),
+        parseTime((new Date()).setDate(now.getDate() + day), '{y}-{m}-{d}'),
+      ]
     },
     defaultActivator ({ on }) {
       return this.$createElement(VTextField, {
         on,
         props: {
-          value: this.value,
+          value: this.range ? (this.value || []).join(' - ') : this.value,
           outlined: true,
           readonly: true,
           ...this.$attrs
@@ -91,28 +108,48 @@ export default {
             gen(VCol, [
               gen(VTextField, {
                 props: {
-                  value: this.date,
+                  value: this.range ? this.date[0] : this.date,
                   dense: true,
                   outlined: true,
                   hideDetails: true
                 },
                 on: {
-                  click: () => this.tab = 0,
-                  input: val => this.date = val
+                  click: () => {
+                    if (!this.range) {
+                      this.tab = 0
+                    }
+                  },
+                  input: val => {
+                    if (this.range) {
+                      this.$set(this.date, 0, val)
+                    } else {
+                      this.date = val
+                    }
+                  }
                 }
               })
             ]),
             gen(VCol, [
               gen(VTextField, {
                 props: {
-                  value: this.time,
+                  value: this.range ? this.date[1] : this.time,
                   dense: true,
                   outlined: true,
                   hideDetails: true
                 },
                 on: {
-                  click: () => this.tab = 1,
-                  input: val => this.time = val
+                  click: () => {
+                    if (!this.range) {
+                      this.tab = 1
+                    }
+                  },
+                  input: val => {
+                    if (this.range) {
+                      this.$set(this.date, 1, val)
+                    } else {
+                      this.time = val
+                    }
+                  }
                 }
               })
             ])
@@ -137,11 +174,14 @@ export default {
                 locale: this.locale,
                 min: this.min,
                 max: this.max,
-                allowedDates: this.allowedDates
+                allowedDates: this.allowedDates,
+                range: this.range
               },
               on: {
                 input: val => {
-                  this.tab = 1
+                  if (!this.range) {
+                    this.tab = 1
+                  }
                   this.date = val
                 }
               }
@@ -175,9 +215,9 @@ export default {
               small: true
             },
             on: {
-              click: this.now
+              click: () => this.range ? this.genDays() : this.genNow()
             }
-          }, '此刻'),
+          }, this.range ? '30天' : '此刻'),
           gen(VBtn, {
             props: {
               color: 'primary',

@@ -133,7 +133,7 @@ export default {
             ref: 'components',
             class: [this.dense ? 'caption' : ''],
             props: {
-              value: item.name ? getObjectValueByPath(this.value, item.name) : undefined,
+              value: item.name ? this.getObjectValueByPath(this.value, item.name) : undefined,
               errorMessages: item.name ? (this.errors[item.name] ? this.errors[item.name].join(',') : undefined) : undefined,
               inputValue: this.inputValues[index],
               ...Object.assign({

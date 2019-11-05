@@ -12,7 +12,12 @@
 					</template>
 
 					<v-col cols="auto">
-						<v-date-time-picker hide-details placeholder="选择日期时间" v-model="dateTime"></v-date-time-picker>
+						<v-date-time-picker
+							hide-details
+							placeholder="选择日期时间"
+							v-model="dateTime"
+							range
+						></v-date-time-picker>
 					</v-col>
 				</v-row>
 			</v-container>
