@@ -196,6 +196,7 @@ export default {
                 format: '24hr',
                 fullWidth: true,
                 scrollable: true,
+                useSeconds: true,
                 locale: this.locale
               },
               on: {
