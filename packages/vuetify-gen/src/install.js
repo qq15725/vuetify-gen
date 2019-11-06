@@ -3,11 +3,12 @@ export function install (Vue, args = {}) {
     if (components) {
       for (const key in components) {
         const component = components[key]
-        if (component) {
-          Vue.component(key, component)
-          component.install && Vue.use(component, {
+        if (component.install) {
+          Vue.use(component, {
             vuetify: args.vuetify
           })
+        } else {
+          Vue.component(key, component)
         }
       }
       return true
