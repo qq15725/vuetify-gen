@@ -26,7 +26,7 @@
 
 <script>
   import { VTextField } from 'vuetify/lib'
-  import { VDateTimePicker } from 'vuetify-gen'
+  import { VDateTimePicker } from 'vuetify-gen/src/components'
 
   export default {
     name: 'App',

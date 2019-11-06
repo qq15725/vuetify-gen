@@ -99,7 +99,7 @@ export default mixins(promiseable).extend({
     },
     genMenu (children) {
       const gen = this.$createElement
-      gen(VMenu, {
+      return gen(VMenu, {
         props: {
           value: this.isActive,
           disabled: this.disabled,
@@ -273,6 +273,8 @@ export default mixins(promiseable).extend({
     }
   },
   render () {
-    return this.dialog ? this.genDialog([this.genPicker()]) : this.genMenu([this.genPicker()])
+    return this.dialog
+      ? this.genDialog([this.genPicker()])
+      : this.genMenu([this.genPicker()])
   }
 })
