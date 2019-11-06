@@ -22,6 +22,8 @@ Vue.use(vuetifyGen, {
 
 ## use 
 
+[online demo](https://qq15725.github.io/vuetify-gen/packages/docs/dist/)
+
 ### toast
 
 ```javascript
