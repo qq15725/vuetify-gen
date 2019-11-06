@@ -1,8 +1,6 @@
 import VFormGen from './VFormGen'
-import { install } from './VFormGenInstall'
+import VFormGenInstall from './VFormGenInstall'
 
-VFormGen.install = install
-
-export { VFormGen }
+export { VFormGen, VFormGenInstall }
 
 export default VFormGen

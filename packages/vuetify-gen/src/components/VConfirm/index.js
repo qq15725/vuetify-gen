@@ -1,8 +1,6 @@
 import VConfirm from './VConfirm'
-import { install } from './VConfirmInstall'
+import VConfirmInstall from './VConfirmInstall'
 
-VConfirm.install = install
-
-export { VConfirm }
+export { VConfirm, VConfirmInstall }
 
 export default VConfirm

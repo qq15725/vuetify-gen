@@ -1,8 +1,6 @@
 import VNotify from './VNotify'
-import { install } from './VNotifyInstall'
+import VNotifyInstall from './VNotifyInstall'
 
-VNotify.install = install
-
-export { VNotify }
+export { VNotify, VNotifyInstall }
 
 export default VNotify

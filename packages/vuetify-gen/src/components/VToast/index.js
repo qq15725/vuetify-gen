@@ -1,8 +1,6 @@
 import VToast from './VToast'
-import { install } from './VToastInstall'
+import VToastInstall from './VToastInstall'
 
-VToast.install = install
-
-export { VToast }
+export { VToast, VToastInstall }
 
 export default VToast
