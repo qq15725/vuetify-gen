@@ -16,7 +16,6 @@
 							hide-details
 							placeholder="选择日期时间"
 							v-model="dateTime"
-							range
 						></v-date-time-picker>
 					</v-col>
 				</v-row>
@@ -31,46 +30,61 @@
 
   export default {
     name: 'App',
-		components: {
+    components: {
       VDateTimePicker
-		},
+    },
     data: () => ({
       dateTime: '',
       items: [
         {
           label: '轻提示',
           value: 'toast',
-          params: '这是一条长文字提示，超过一定字数就会换行'
+          params: [
+            '这是一条长文字提示，超过一定字数就会换行',
+            1000
+          ]
+        },
+        {
+          label: '通知',
+          value: 'notify',
+          params: [
+            '这是一条长文字提示，超过一定字数就会换行,这是一条长文字提示，超过一定字数就会换行',
+            'error',
+            1000
+          ]
         },
         {
           label: '确定',
           value: 'confirm',
-          params: 'sadsad'
+          params: [
+            'sadsad'
+          ]
         },
         {
           label: '表单',
           value: 'form',
-          params: {
-            title: '表单',
-            items: [
+          params: [
+            '表单',
+            [
               {
                 name: 'name',
                 is: VTextField,
                 props: {}
               }
             ]
-          }
+          ]
+        },
+        {
+          label: '时间选择',
+          value: 'dateTimePicker',
+          params: []
         }
       ]
     }),
     methods: {
       async test ({ label, value, params }) {
-        try {
-          const _ = await this[`$${value}`](params)
-          window.console.log(label, _)
-        } catch (err) {
-          window.console.log(err.message)
-        }
+        const _ = await this[`$${value}`](...params)
+        window.console.log(label, _)
       }
     }
   }

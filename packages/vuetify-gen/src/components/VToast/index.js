@@ -1,7 +1,7 @@
 import VToast from './VToast'
-import pluginFactory from '../../util/pluginFactory'
+import { install } from './VToastInstall'
 
-VToast.install = pluginFactory('toast', VToast, 'message').install
+VToast.install = install
 
 export { VToast }
 

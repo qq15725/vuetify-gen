@@ -15,15 +15,16 @@ export default baseMixins.extend({
   name: 'v-toast',
   props: {
     message: String,
-    duration: {
+    timeout: {
       type: Number,
       default: 3000
     },
-    overlay: Boolean
+    overlay: Boolean,
+    persistent: Boolean
   },
   mounted () {
     this.isActive = true
-    this.duration > 0 && setTimeout(() => this.isActive = false, this.duration)
+    this.timeout > 0 && setTimeout(() => this.isActive = false, this.timeout)
   },
   render (gen) {
     return gen(VDialog, {
@@ -32,7 +33,7 @@ export default baseMixins.extend({
         maxWidth: '70%',
         value: this.isActive,
         hideOverlay: !this.overlay,
-        persistent: true
+        persistent: this.persistent
       },
       on: {
         input: val => this.isActive = val

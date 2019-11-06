@@ -6,8 +6,8 @@
     "name": "weng",
     "email": "157215725@qq.com"
   },
-  "main": "lib/vuetify-gen.js",
-  "module": "lib/vuetify-gen.js",
+  "main": "src/vuetify-gen.js",
+  "module": "src/vuetify-gen.js",
   "files": [
     "src/",
     "lib/"

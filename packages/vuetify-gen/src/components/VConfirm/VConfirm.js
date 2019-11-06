@@ -1,5 +1,6 @@
 import mixins from '../../util/mixins'
 import toggleable from '../../mixins/toggleable'
+import promiseable from '../../mixins/promiseable'
 
 import {
   VDialog,
@@ -12,7 +13,8 @@ import {
 } from 'vuetify/lib'
 
 const baseMixins = mixins(
-  toggleable
+  toggleable,
+  promiseable
 )
 
 export default baseMixins.extend({
@@ -22,41 +24,22 @@ export default baseMixins.extend({
     okText: String,
     cancelText: String,
     disabled: Boolean,
-    persistent: {
-      type: Boolean,
-      default: true
-    },
+    persistent: Boolean,
     ok: Function,
     cancel: Function
   },
-  data () {
-    return {
-      resolve: null,
-      reject: null
-    }
-  },
   methods: {
     onOk () {
-      if (this.ok) {
-        this.ok()
-      } else {
-        this.resolve && this.resolve(this)
-        this.$emit('ok')
-      }
+      this.ok && this.ok()
+      this.$emit('ok')
+      this.resolve(this)
       this.isActive = false
     },
     onCancel () {
-      if (this.cancel) {
-        this.cancel()
-      } else {
-        this.reject && this.reject(new Error('cancel'))
-        this.$emit('cancel')
-      }
+      this.cancel && this.cancel()
+      this.$emit('cancel')
+      this.reject(new Error('cancel'))
       this.isActive = false
-    },
-    promise (resolve, reject) {
-      this.resolve = resolve
-      this.reject = reject
     }
   },
   render (gen) {
@@ -111,7 +94,7 @@ export default baseMixins.extend({
             on: {
               click: this.onCancel
             }
-          }, [this.cancelText || '取消']),
+          }, [this.cancelText || '取消'])
         ]),
       ])
     ])

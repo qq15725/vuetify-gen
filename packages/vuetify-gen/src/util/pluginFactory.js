@@ -1,23 +1,31 @@
 import mixins from './mixins'
-import { factory as pluginableFactory } from '../mixins/pluginable'
+import { factory as pluginable } from '../mixins/pluginable'
 
-export default (name, component, defaultProp = null, valueProp = 'isActive') => {
-  const factory = (Vue, options, propsData) => {
+export default (name, component, paramsProps = [], defaultProps = {}, valueProp = 'isActive') => {
+
+  const factory = (Vue, options, ...params) => {
     return new Promise((resolve, reject) => {
-      const Component = mixins(pluginableFactory(valueProp)).extend(component)
-      if (defaultProp && typeof propsData !== 'object') {
-        propsData = { [defaultProp]: propsData }
+      const Component = mixins(pluginable(valueProp)).extend(component)
+      let propsData = params[0] || {}
+      if (typeof propsData !== 'object') {
+        propsData = {}
+        paramsProps.forEach((prop, index) => {
+          propsData[prop] = params[index]
+        })
       }
       const instance = new Component({
         ...options,
         name,
-        propsData
+        propsData: {
+          ...defaultProps,
+          ...propsData
+        }
       })
       instance.$mount()
-      if (!instance.promise) {
-        resolve(instance)
+      if (instance.injectPromise) {
+        instance.injectPromise(resolve, reject)
       } else {
-        instance.promise(resolve, reject)
+        resolve(instance)
       }
     })
   }

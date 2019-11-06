@@ -11,15 +11,17 @@ import {
   VTimePicker,
   VTabsItems,
   VTabItem,
-  VDivider
+  VDivider,
+  VDialog
 } from 'vuetify/lib'
-import { parseTime } from '../../util'
+import promiseable from '../../mixins/promiseable'
+import mixins from '../../util/mixins'
 
-export default {
+export default mixins(promiseable).extend({
   inheritAttrs: false,
   name: 'v-date-time-picker',
   props: {
-    value: [String, Array],
+    value: [String, Array, Boolean],
     disabled: Boolean,
     maxWidth: {
       type: [Number, String],
@@ -32,7 +34,12 @@ export default {
     max: String,
     min: String,
     allowedDates: Function,
-    range: Boolean
+    range: Boolean,
+    dialog: Boolean,
+    persistent: Boolean,
+
+    submit: Function,
+    cancel: Function
   },
   data () {
     let date, time
@@ -45,29 +52,39 @@ export default {
       date: date || null,
       time: time || null,
       tab: 0,
-      isActive: false
+      isActive: this.dialog ? !!this.value : false
+    }
+  },
+  watch: {
+    value (val) {
+      if (this.dialog) {
+        this.isActive = !!val
+      }
+    },
+    isActive (val) {
+      if (this.dialog) {
+        !!val !== this.value && this.$emit('input', val)
+      }
     }
   },
   methods: {
-    submit () {
+    onSubmit () {
       if (this.range) {
         this.$emit('input', this.date)
+        this.submit && this.submit(this.date)
+        this.resolve(this.date)
       } else {
         this.$emit('input', `${this.date} ${this.time}`)
+        this.submit && this.submit(`${this.date} ${this.time}`)
+        this.resolve(`${this.date} ${this.time}`)
       }
       this.isActive = false
     },
-    genNow () {
-      const now = new Date()
-      this.date = parseTime(now, '{y}-{m}-{d}')
-      this.time = parseTime(now, '{h}:{i}')
-    },
-    genDays (day = 30) {
-      const now = new Date()
-      this.date = [
-        parseTime(now, '{y}-{m}-{d}'),
-        parseTime((new Date()).setDate(now.getDate() + day), '{y}-{m}-{d}'),
-      ]
+    onCancel () {
+      this.cancel && this.cancel()
+      this.$emit('cancel')
+      this.reject(new Error('cancel'))
+      this.isActive = false
     },
     defaultActivator ({ on }) {
       return this.$createElement(VTextField, {
@@ -79,26 +96,45 @@ export default {
           ...this.$attrs
         }
       })
-    }
-  },
-  render (gen) {
-    return gen(VMenu, {
-      props: {
-        value: this.isActive,
-        disabled: this.disabled,
-        closeOnContentClick: false,
-        maxWidth: this.maxWidth,
-        offsetY: true,
-        bottom: true
-      },
-      on: {
-        input: val => this.isActive = val
-      },
-      scopedSlots: {
-        activator: this.$scopedSlots.activator || this.defaultActivator
-      }
-    }, [
-      gen(VCard, [
+    },
+    genMenu (children) {
+      const gen = this.$createElement
+      gen(VMenu, {
+        props: {
+          value: this.isActive,
+          disabled: this.disabled,
+          closeOnContentClick: false,
+          maxWidth: this.maxWidth,
+          offsetY: true,
+          bottom: true
+        },
+        on: {
+          input: val => this.isActive = val
+        },
+        scopedSlots: {
+          activator: this.$scopedSlots.activator || this.defaultActivator
+        }
+      }, children)
+    },
+    genDialog (children) {
+      const gen = this.$createElement
+      return gen(VDialog, {
+        props: {
+          value: this.isActive,
+          maxWidth: this.maxWidth,
+          persistent: this.persistent
+        },
+        on: {
+          input: val => this.isActive = val
+        },
+        scopedSlots: {
+          activator: this.$scopedSlots.activator
+        }
+      }, children)
+    },
+    genPicker () {
+      const gen = this.$createElement
+      return gen(VCard, [
         gen(VCardTitle, { class: 'pa-2' }, [
           gen(VRow, {
             props: {
@@ -212,13 +248,14 @@ export default {
           gen(VBtn, {
             props: {
               color: 'primary',
-              text: true,
-              small: true
+              small: true,
+              dark: true,
+              depressed: true
             },
             on: {
-              click: () => this.range ? this.genDays() : this.genNow()
+              click: this.onSubmit
             }
-          }, this.range ? '30天' : '此刻'),
+          }, '确定'),
           gen(VBtn, {
             props: {
               color: 'primary',
@@ -228,11 +265,14 @@ export default {
               outlined: true
             },
             on: {
-              click: this.submit
+              click: this.onCancel
             }
-          }, '确定'),
+          }, '取消'),
         ])
       ])
-    ])
+    }
+  },
+  render () {
+    return this.dialog ? this.genDialog([this.genPicker()]) : this.genMenu([this.genPicker()])
   }
-}
+})

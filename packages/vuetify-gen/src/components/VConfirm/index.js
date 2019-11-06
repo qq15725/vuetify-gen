@@ -1,7 +1,7 @@
 import VConfirm from './VConfirm'
-import pluginFactory from '../../util/pluginFactory'
+import { install } from './VConfirmInstall'
 
-VConfirm.install = pluginFactory('confirm', VConfirm, 'title').install
+VConfirm.install = install
 
 export { VConfirm }
 

@@ -12,9 +12,13 @@ import {
 import VFormGen from './VFormGen'
 
 import toggleable from '../../mixins/toggleable'
+import promiseable from '../../mixins/promiseable'
 import mixins from '../../util/mixins'
 
-const baseMixins = mixins(toggleable)
+const baseMixins = mixins(
+  toggleable,
+  promiseable
+)
 
 export default baseMixins.extend({
   inheritAttrs: false,
@@ -29,20 +33,18 @@ export default baseMixins.extend({
     },
     items: Array,
     errors: Object,
-    persistent: {
-      type: Boolean,
-      default: true
-    },
+    persistent: Boolean,
     loading: Boolean,
-    okText: String,
+
+    submitText: String,
     cancelText: String,
+
+    submit: Function,
     cancel: Function
   },
   data () {
     return {
-      tempForm: {},
-      resolve: null,
-      reject: null
+      tempForm: {}
     }
   },
   watch: {
@@ -63,28 +65,16 @@ export default baseMixins.extend({
   },
   methods: {
     onSubmit () {
-      if (this.submit) {
-        this.submit(this.tempForm)
-      } else {
-        this.resolve && this.resolve(this.tempForm)
-        this.$emit('submit', this.tempForm)
-      }
-      if (this.value !== this.isActive) {
-        this.isActive = false
-      }
-    },
-    onCancel () {
-      if (this.cancel) {
-        this.cancel()
-      } else {
-        this.reject && this.reject(new Error('cancel'))
-        this.$emit('cancel')
-      }
+      this.submit && this.submit(this.tempForm)
+      this.$emit('submit', this.tempForm)
+      this.resolve(this.tempForm)
       this.isActive = false
     },
-    promise (resolve, reject) {
-      this.resolve = resolve
-      this.reject = reject
+    onCancel () {
+      this.cancel && this.cancel()
+      this.$emit('cancel')
+      this.reject(new Error('cancel'))
+      this.isActive = false
     }
   },
   render (gen) {
@@ -149,7 +139,7 @@ export default baseMixins.extend({
             on: {
               click: this.onSubmit
             }
-          }, this.okText || '确定'),
+          }, this.submitText || '确定'),
           gen(VBtn, {
             props: {
               color: 'blue',

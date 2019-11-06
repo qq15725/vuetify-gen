@@ -1,8 +1,7 @@
 import VFormGen from './VFormGen'
-import pluginFactory from '../../util/pluginFactory'
-import VFormGenDialog from './VFormGenDialog'
+import { install } from './VFormGenInstall'
 
-VFormGen.install = pluginFactory('form', VFormGenDialog).install
+VFormGen.install = install
 
 export { VFormGen }
 
