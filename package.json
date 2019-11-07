@@ -1,45 +1,10 @@
 {
-  "private": true,
   "scripts": {
-    "build": "lerna run build --scope vuetify-gen --stream"
+    "build": "lerna run build --scope vuetify-gen --stream",
+    "docs:serve": "lerna run serve --scope vuetifyjs-gen.com --stream",
+    "docs:build": "lerna run build --scope vuetifyjs-gen.com --stream"
   },
   "devDependencies": {
-    "@vue/cli-plugin-babel": "^4.0.0",
-    "@vue/cli-plugin-eslint": "^4.0.0",
-    "@vue/cli-service": "^4.0.0",
-    "babel-eslint": "^10.0.3",
-    "core-js": "^3.3.2",
-    "eslint": "^5.16.0",
-    "eslint-plugin-vue": "^5.0.0",
-    "lerna": "^3.15.0",
-    "sass": "^1.22.10",
-    "sass-loader": "^7.3.1",
-    "shelljs": "^0.8.3",
-    "vue": "^2.6.10",
-    "vue-template-compiler": "^2.6.10",
-    "vuetify": "^2.1.9"
-  },
-  "eslintConfig": {
-    "root": true,
-    "env": {
-      "node": true
-    },
-    "extends": [
-      "plugin:vue/essential",
-      "eslint:recommended"
-    ],
-    "rules": {},
-    "parserOptions": {
-      "parser": "babel-eslint"
-    }
-  },
-  "postcss": {
-    "plugins": {
-      "autoprefixer": {}
-    }
-  },
-  "browserslist": [
-    "> 1%",
-    "last 2 versions"
-  ]
+    "lerna": "^3.15.0"
+  }
 }

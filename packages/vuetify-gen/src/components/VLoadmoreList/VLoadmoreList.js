@@ -13,26 +13,64 @@ export default {
   },
   props: {
     value: Boolean,
-    finished: Boolean
+    loadingText: String,
+    finished: Boolean,
+    finishedText: String
   },
-  render (gen) {
-    return gen('div', [
-      this.$slots.default,
-      gen(VRow, {
-        props: { nogutters: true, align: 'center', justify: 'center' },
+  methods: {
+    genNoMore () {
+      const gen = this.$createElement
+
+      return gen(VRow, {
+        props: {
+          nogutters: true,
+          align: 'center',
+          justify: 'center'
+        },
+        class: 'grey--text'
+      }, [
+        gen('span', { class: 'caption' }, this.finishedText || '没有更多了')
+      ])
+    },
+    genLoading () {
+      const gen = this.$createElement
+
+      return gen(VRow, {
+        props: {
+          nogutters: true,
+          align: 'center',
+          justify: 'center'
+        },
         class: 'grey--text',
         directives: [
           {
             name: 'v-intersect',
-            value: (entries, observer, isIntersecting) => {
-              console.log(entries[0].isIntersecting)
+            value: entries => {
+              if (entries[0].isIntersecting && !this.value) {
+                if (!this.finished) {
+                  this.$emit('load')
+                }
+              }
             }
           }
         ]
-      }, [
-        gen(VProgressCircular, { props: { size: 12, width: 1, indeterminate: true }, class: 'mr-3' }),
-        gen('span', { class: 'caption' }, '加载中...')
+      }, this.$slots.loading || [
+        gen(VProgressCircular, {
+          props: {
+            size: 12,
+            width: 1,
+            indeterminate: true
+          },
+          class: 'mr-3'
+        }),
+        gen('span', { class: 'caption' }, this.loadingText || '加载中...')
       ])
+    }
+  },
+  render (gen) {
+    return gen('div', [
+      this.$slots.default,
+      this.finished ? this.genNoMore() : this.genLoading()
     ])
   }
 }

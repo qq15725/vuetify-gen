@@ -3,51 +3,18 @@
   "version": "0.0.17",
   "private": true,
   "scripts": {
-    "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint"
+    "serve": "vuepress dev .",
+    "build": "vuepress build ."
   },
   "dependencies": {
-    "core-js": "^3.3.2",
     "material-design-icons-iconfont": "^5.0.1",
-    "vue": "^2.6.10",
     "vuetify": "^2.1.0",
     "vuetify-gen": "^0.0.17"
   },
   "devDependencies": {
-    "@vue/cli-plugin-babel": "^4.0.0",
-    "@vue/cli-plugin-eslint": "^4.0.0",
-    "@vue/cli-service": "^4.0.0",
-    "babel-eslint": "^10.0.3",
-    "eslint": "^5.16.0",
-    "eslint-plugin-vue": "^5.0.0",
-    "sass": "^1.19.0",
-    "sass-loader": "^8.0.0",
-    "vue-cli-plugin-vuetify": "^1.1.1",
-    "vue-template-compiler": "^2.6.10",
-    "vuetify-loader": "^1.3.0"
-  },
-  "eslintConfig": {
-    "root": true,
-    "env": {
-      "node": true
-    },
-    "extends": [
-      "plugin:vue/essential",
-      "eslint:recommended"
-    ],
-    "rules": {},
-    "parserOptions": {
-      "parser": "babel-eslint"
-    }
-  },
-  "postcss": {
-    "plugins": {
-      "autoprefixer": {}
-    }
-  },
-  "browserslist": [
-    "> 1%",
-    "last 2 versions"
-  ]
+    "highlight.js": "^9.16.2",
+    "sass": "^1.22.10",
+    "sass-loader": "^7.3.1",
+    "vuepress": "^1.2.0"
+  }
 }

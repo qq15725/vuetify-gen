@@ -16,6 +16,7 @@ import {
 } from 'vuetify/lib'
 import promiseable from '../../mixins/promiseable'
 import mixins from '../../util/mixins'
+import { parseTime } from '../../util'
 
 export default mixins(promiseable).extend({
   inheritAttrs: false,
@@ -74,9 +75,10 @@ export default mixins(promiseable).extend({
         this.submit && this.submit(this.date)
         this.resolve(this.date)
       } else {
-        this.$emit('input', `${this.date} ${this.time}`)
-        this.submit && this.submit(`${this.date} ${this.time}`)
-        this.resolve(`${this.date} ${this.time}`)
+        const dateTime = parseTime(new Date(`${this.date} ${this.time}`))
+        this.$emit('input', dateTime)
+        this.submit && this.submit(dateTime)
+        this.resolve(dateTime)
       }
       this.isActive = false
     },
@@ -156,10 +158,11 @@ export default mixins(promiseable).extend({
                     }
                   },
                   input: val => {
+                    const date = parseTime(new Date(val), '{y}-{m}-{d}')
                     if (this.range) {
-                      this.$set(this.date, 0, val)
+                      this.$set(this.date, 0, date)
                     } else {
-                      this.date = val
+                      this.date = date
                     }
                   }
                 }
@@ -180,10 +183,11 @@ export default mixins(promiseable).extend({
                     }
                   },
                   input: val => {
+                    const time = parseTime(new Date(`${this.date} ${val}`), '{h}:{i}:{s}')
                     if (this.range) {
-                      this.$set(this.date, 1, val)
+                      this.$set(this.date, 1, time)
                     } else {
-                      this.time = val
+                      this.time = time
                     }
                   }
                 }
@@ -236,7 +240,9 @@ export default mixins(promiseable).extend({
                 locale: this.locale
               },
               on: {
-                input: val => this.time = val
+                input: val => {
+                  this.time = val
+                }
               }
             })
           ])

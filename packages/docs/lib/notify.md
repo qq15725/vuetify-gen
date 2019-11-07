@@ -1,0 +1,1 @@
+<v-example example="notify"></v-example>
