@@ -1,5 +1,5 @@
 module.exports = {
-  base: '/vuetify-gen/packages/docs/dist',
+  base: '/vuetify-gen/packages/docs/dist/',
   title: 'vuetify-gen',
   description: 'vuetify 扩展组件',
   dest: './dist',
