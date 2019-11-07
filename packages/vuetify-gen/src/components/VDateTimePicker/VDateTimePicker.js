@@ -68,6 +68,7 @@ export default mixins(promiseable).extend({
     }
   },
   methods: {
+
     valueToDateTime (value) {
       let date, time
       if (this.range) {
