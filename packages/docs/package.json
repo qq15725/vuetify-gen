@@ -8,6 +8,7 @@
   },
   "dependencies": {
     "material-design-icons-iconfont": "^5.0.1",
+    "qrcodejs2": "^0.0.2",
     "vuetify": "^2.1.0",
     "vuetify-gen": "^0.0.20"
   },

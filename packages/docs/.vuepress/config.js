@@ -19,12 +19,18 @@ module.exports = {
       '/lib/': [
         ['quickstart', '快速开始'],
 
-        ['toast', 'VToast（轻提示）'],
-        ['notify', 'VNotify（通知）'],
-        ['confirm', 'VConfirm（确定）'],
-        ['form-gen', 'VFormGen（表单生成）'],
-        ['date-time-picker', 'VDateTimePicker（日期选择）'],
-        ['loadmore-list', 'VLoadmoreList（列表）']
+        {
+          title: '扩展组件',
+          children: [
+            ['toast', 'VToast（轻提示）'],
+            ['notify', 'VNotify（通知）'],
+            ['confirm', 'VConfirm（确定）'],
+            ['form-gen', 'VFormGen（表单生成）'],
+            ['date-time-picker', 'VDateTimePicker（日期选择）'],
+            ['loadmore-list', 'VLoadmoreList（列表）'],
+            ['qrcode', 'VQrcode（二维码）'],
+          ]
+        }
       ]
     }
   },

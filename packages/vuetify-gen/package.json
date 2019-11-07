@@ -48,5 +48,8 @@
     "*.scss",
     "*.css"
   ],
-  "gitHead": "e66f3814ca33c0f5b0c2bdcf126edf67174e0431"
+  "gitHead": "e66f3814ca33c0f5b0c2bdcf126edf67174e0431",
+  "dependencies": {
+    "qrcodejs2": "^0.0.2"
+  }
 }
