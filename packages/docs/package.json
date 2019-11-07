@@ -1,6 +1,6 @@
 {
   "name": "vuetifyjs-gen.com",
-  "version": "0.0.19",
+  "version": "0.0.20",
   "private": true,
   "scripts": {
     "serve": "vuepress dev .",
@@ -9,7 +9,7 @@
   "dependencies": {
     "material-design-icons-iconfont": "^5.0.1",
     "vuetify": "^2.1.0",
-    "vuetify-gen": "^0.0.19"
+    "vuetify-gen": "^0.0.20"
   },
   "devDependencies": {
     "highlight.js": "^9.16.2",
