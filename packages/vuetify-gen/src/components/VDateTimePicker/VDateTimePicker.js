@@ -43,12 +43,7 @@ export default mixins(promiseable).extend({
     cancel: Function
   },
   data () {
-    let date, time
-    if (this.range) {
-      date = this.value || []
-    } else {
-      [date, time] = (this.value || '').split(' ')
-    }
+    let [date, time] = this.valueToDateTime(this.value)
     return {
       date: date || null,
       time: time || null,
@@ -60,6 +55,10 @@ export default mixins(promiseable).extend({
     value (val) {
       if (this.dialog) {
         this.isActive = !!val
+      } else {
+        let [date, time] = this.valueToDateTime(val)
+        this.date = date
+        this.time = time
       }
     },
     isActive (val) {
@@ -69,6 +68,16 @@ export default mixins(promiseable).extend({
     }
   },
   methods: {
+    valueToDateTime (value) {
+      let date, time
+      if (this.range) {
+        date = value || []
+        time = null
+      } else {
+        [date, time] = (value || '').split(' ')
+      }
+      return [date, time]
+    },
     onSubmit () {
       if (this.range) {
         this.$emit('input', this.date)
