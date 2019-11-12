@@ -23,7 +23,7 @@
 		content: none;
 	}
 
-  /* fix date */
+  /* fix v-date */
   .v-date-picker-table--date table {
     margin: 0;
   }
@@ -35,5 +35,17 @@
     background-color: inherit;
     border: 0;
     padding: 0;
+  }
+
+  /* fix v-table */
+
+  .v-data-table table {
+    display: table;
+  }
+
+  .v-data-table tr,
+  .v-data-table th,
+  .v-data-table td {
+    border: inherit;
   }
 </style>

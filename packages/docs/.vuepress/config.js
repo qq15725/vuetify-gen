@@ -18,7 +18,6 @@ module.exports = {
     sidebar: {
       '/lib/': [
         ['quickstart', '快速开始'],
-
         {
           title: '扩展组件',
           children: [
@@ -27,8 +26,9 @@ module.exports = {
             ['confirm', 'VConfirm（确定）'],
             ['form-gen', 'VFormGen（表单生成）'],
             ['date-time-picker', 'VDateTimePicker（日期选择）'],
-            ['loadmore-list', 'VLoadmoreList（列表）'],
             ['qrcode', 'VQrcode（二维码）'],
+            ['loadmore', 'VLoadmore（加载更多）'],
+            ['data-wrapper', 'VDataWrapper（数据包装器）']
           ]
         }
       ]
