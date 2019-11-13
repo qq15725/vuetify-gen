@@ -160,7 +160,7 @@ export default {
             gen(VPagination, {
               props: {
                 value: this.pagination.page,
-                length: this.pagination.pageCount
+                length: Math.ceil(this.itemsLength / this.dataItemsPerPage)
               },
               on: {
                 input: val => this.pagination.page = val
