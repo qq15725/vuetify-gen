@@ -5,7 +5,8 @@ import {
   VRow,
   VCol,
   VTextField,
-  VSelect
+  VSelect,
+  VContainer
 } from 'vuetify/lib'
 
 import VLoadmore from '../VLoadmore'
@@ -29,6 +30,7 @@ export default {
         5, 10, 24
       ]
     },
+    serverItemsLength: Number,
     hideDefaultFooter: Boolean,
     loading: Boolean,
 
@@ -55,13 +57,17 @@ export default {
     }
   },
   computed: {
+    itemsLength () {
+      return this.serverItemsLength || this.pagination.itemsLength
+    },
     commonProps () {
       return {
         ...this.$attrs,
         page: this.pagination.page,
         itemsPerPage: this.loadmore ? -1 : this.dataItemsPerPage,
         loading: this.loading,
-        hideDefaultFooter: true
+        hideDefaultFooter: true,
+        serverItemsLength: this.serverItemsLength
       }
     },
     commonListeners () {
@@ -117,75 +123,77 @@ export default {
     genPagination () {
       const gen = this.$createElement
 
-      return gen(VRow, {
-        props: {
-          align: 'center',
-          justify: 'end'
-        },
-        class: ['caption']
-      }, [
-        gen(VCol, { props: { cols: 'auto' } }, [
-          `共 ${this.pagination.itemsLength} 条`
-        ]),
-        gen(VCol, { props: { cols: 'auto' } }, [
-          gen(VSelect, {
-            props: {
-              value: this.dataItemsPerPage,
-              outlined: true,
-              dense: true,
-              hideDetails: true,
-              items: this.rowsPerPageItems.map(item => ({
-                text: `${item}条/页`,
-                value: item
-              }))
-            },
-            on: {
-              input: val => this.dataItemsPerPage = val
-            },
-            class: ['caption'],
-            style: {
-              width: '120px',
-            }
-          })
-        ]),
-        gen(VCol, { props: { cols: 'auto' } }, [
-          gen(VPagination, {
-            props: {
-              value: this.pagination.page,
-              length: this.pagination.pageCount
-            },
-            on: {
-              input: val => this.pagination.page = val
-            }
-          })
-        ]),
-        gen(VCol, { props: { cols: 'auto' } }, [
-          gen(VTextField, {
-            props: {
-              value: this.pagination.page,
-              outlined: true,
-              dense: true,
-              hideDetails: true,
-              prefix: '前往',
-              suffix: '页'
-            },
-            on: {
-              change: val => {
-                const endPage = Math.ceil(this.pagination.itemsLength / this.dataItemsPerPage)
-                if (val > endPage) {
-                  this.pagination.page = endPage
-                } else if (val < 1) {
-                  this.pagination.page = 1
-                } else {
-                  this.pagination.page = parseInt(val)
-                }
+      return gen(VContainer, { props: { fluid: true } }, [
+        gen(VRow, {
+          props: {
+            align: 'center',
+            justify: 'end'
+          },
+          class: ['caption']
+        }, [
+          gen(VCol, { props: { cols: 'auto' } }, [
+            `共 ${this.itemsLength} 条`
+          ]),
+          gen(VCol, { props: { cols: 'auto' } }, [
+            gen(VSelect, {
+              props: {
+                value: this.dataItemsPerPage,
+                outlined: true,
+                dense: true,
+                hideDetails: true,
+                items: this.rowsPerPageItems.map(item => ({
+                  text: `${item}条/页`,
+                  value: item
+                }))
+              },
+              on: {
+                input: val => this.dataItemsPerPage = val
+              },
+              class: ['caption'],
+              style: {
+                width: '120px',
               }
-            },
-            class: ['caption'],
-            style: {
-              width: '100px',
-            }
-          })
+            })
+          ]),
+          gen(VCol, { props: { cols: 'auto' } }, [
+            gen(VPagination, {
+              props: {
+                value: this.pagination.page,
+                length: this.pagination.pageCount
+              },
+              on: {
+                input: val => this.pagination.page = val
+              }
+            })
+          ]),
+          gen(VCol, { props: { cols: 'auto' } }, [
+            gen(VTextField, {
+              props: {
+                value: this.pagination.page,
+                outlined: true,
+                dense: true,
+                hideDetails: true,
+                prefix: '前往',
+                suffix: '页'
+              },
+              on: {
+                change: val => {
+                  const endPage = Math.ceil(this.itemsLength / this.dataItemsPerPage)
+                  if (val > endPage) {
+                    this.pagination.page = endPage
+                  } else if (val < 1) {
+                    this.pagination.page = 1
+                  } else {
+                    this.pagination.page = parseInt(val)
+                  }
+                }
+              },
+              class: ['caption'],
+              style: {
+                width: '100px',
+              }
+            })
+          ])
         ])
       ])
     },
