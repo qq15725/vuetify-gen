@@ -1,7 +1,11 @@
 import {
   VDataTable,
   VDataIterator,
-  VPagination
+  VPagination,
+  VRow,
+  VCol,
+  VTextField,
+  VSelect
 } from 'vuetify/lib'
 
 import VLoadmore from '../VLoadmore'
@@ -19,7 +23,13 @@ export default {
       type: Number,
       default: 10
     },
-    headers: Array,
+    rowsPerPageItems: {
+      type: Array,
+      default: () => [
+        5, 10, 24
+      ]
+    },
+    hideDefaultFooter: Boolean,
     loading: Boolean,
 
     iterator: Boolean,
@@ -28,33 +38,54 @@ export default {
   },
   data () {
     return {
-      dataPage: this.page,
-      pageCount: 0
+      pagination: {
+        itemsLength: 0,
+        itemsPerPage: this.itemsPerPage,
+        page: this.page,
+        pageCount: 0,
+        pageStart: 0,
+        pageStop: 0
+      },
+      dataItemsPerPage: this.itemsPerPage
     }
   },
   watch: {
     page (val) {
-      this.dataPage = val
-    },
-    dataPage (val) {
-      val !== this.page && this.$emit('update:page', val)
+      this.pagination.page = val
     }
   },
   computed: {
-    dataItemsPerPage () {
-      return this.loadmore ? -1 : this.itemsPerPage
-    },
     commonProps () {
       return {
-        page: this.dataPage,
-        itemsPerPage: this.dataItemsPerPage,
+        ...this.$attrs,
+        page: this.pagination.page,
+        itemsPerPage: this.loadmore ? -1 : this.dataItemsPerPage,
         loading: this.loading,
-        hideDefaultFooter: true,
-        ...this.$attrs
+        hideDefaultFooter: true
       }
     },
     commonListeners () {
-      return this.$listeners
+      return {
+        pagination: (pagination) => {
+          this.pagination = {
+            ...pagination
+          }
+          if (!this.loadmore) {
+            this.dataItemsPerPage = pagination.itemsPerPage
+          }
+          this.$emit('pagination', {
+            ...pagination,
+            itemsPerPage: this.dataItemsPerPage
+          })
+        },
+        'update:options': options => {
+          this.$emit('update:options', {
+            ...options,
+            itemsPerPage: this.dataItemsPerPage
+          })
+        },
+        ...this.$listeners
+      }
     }
   },
   methods: {
@@ -65,15 +96,7 @@ export default {
           'v-data-wrapper--iterator'
         ],
         props: this.commonProps,
-        on: {
-          'update:page': val => this.dataPage = val,
-          // lost page-count event
-          pagination: (pagination) => {
-            this.pageCount = pagination.pageCount
-            this.$emit('pagination', pagination)
-          },
-          ...this.commonListeners
-        },
+        on: this.commonListeners,
         slots: this.$slots,
         scopedSlots: this.$scopedSlots
       })
@@ -85,31 +108,86 @@ export default {
           'v-data-wrapper--table',
           'transparent'
         ],
-        props: {
-          ...this.commonProps,
-          headers: this.headers,
-          dense: this.dense
-        },
-        on: {
-          'update:page': val => this.dataPage = val,
-          'page-count': val => this.pageCount = val,
-          ...this.commonListeners
-        },
+        props: this.commonProps,
+        on: this.commonListeners,
         slots: this.$slots,
         scopedSlots: this.$scopedSlots
       })
     },
     genPagination () {
       const gen = this.$createElement
-      return gen(VPagination, {
+
+      return gen(VRow, {
         props: {
-          value: this.dataPage,
-          length: this.pageCount
+          align: 'center',
+          justify: 'end'
         },
-        on: {
-          input: val => this.dataPage = val
-        }
-      })
+        class: ['caption']
+      }, [
+        gen(VCol, { props: { cols: 'auto' } }, [
+          `共 ${this.pagination.itemsLength} 条`
+        ]),
+        gen(VCol, { props: { cols: 'auto' } }, [
+          gen(VSelect, {
+            props: {
+              value: this.dataItemsPerPage,
+              outlined: true,
+              dense: true,
+              hideDetails: true,
+              items: this.rowsPerPageItems.map(item => ({
+                text: `${item}条/页`,
+                value: item
+              }))
+            },
+            on: {
+              input: val => this.dataItemsPerPage = val
+            },
+            class: ['caption'],
+            style: {
+              width: '120px',
+            }
+          })
+        ]),
+        gen(VCol, { props: { cols: 'auto' } }, [
+          gen(VPagination, {
+            props: {
+              value: this.pagination.page,
+              length: this.pagination.pageCount
+            },
+            on: {
+              input: val => this.pagination.page = val
+            }
+          })
+        ]),
+        gen(VCol, { props: { cols: 'auto' } }, [
+          gen(VTextField, {
+            props: {
+              value: this.pagination.page,
+              outlined: true,
+              dense: true,
+              hideDetails: true,
+              prefix: '前往',
+              suffix: '页'
+            },
+            on: {
+              change: val => {
+                const endPage = Math.ceil(this.pagination.itemsLength / this.dataItemsPerPage)
+                if (val > endPage) {
+                  this.pagination.page = endPage
+                } else if (val < 1) {
+                  this.pagination.page = 1
+                } else {
+                  this.pagination.page = parseInt(val)
+                }
+              }
+            },
+            class: ['caption'],
+            style: {
+              width: '100px',
+            }
+          })
+        ])
+      ])
     },
     genLoadmore (children) {
       const gen = this.$createElement
@@ -136,9 +214,11 @@ export default {
         this.genLoadmore(children)
       ]
     } else {
-      children.push(
-        this.genPagination()
-      )
+      if (!this.hideDefaultFooter) {
+        children.push(
+          this.genPagination()
+        )
+      }
     }
     return gen('div', { class: 'v-data-wrapper' }, children)
   }

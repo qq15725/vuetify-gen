@@ -58,7 +58,7 @@ export default {
           align: 'center',
           justify: 'center'
         },
-        class: 'grey--text',
+        class: ['pa-10', 'grey--text'],
         directives: [
           {
             name: 'v-intersect',
@@ -77,7 +77,7 @@ export default {
     }
   },
   render (gen) {
-    return gen(this.tag, { class: ['v-loadmore'] },  [
+    return gen(this.tag, { class: ['v-loadmore'] }, [
       this.$slots.default,
       this.finished ? this.genNoMore() : this.genLoading()
     ])

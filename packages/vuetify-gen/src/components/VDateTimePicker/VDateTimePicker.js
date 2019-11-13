@@ -40,7 +40,9 @@ export default mixins(promiseable).extend({
     persistent: Boolean,
 
     submit: Function,
-    cancel: Function
+    cancel: Function,
+
+    hideTime: Boolean
   },
   data () {
     let [date, time] = this.valueToDateTime(this.value)
@@ -84,7 +86,9 @@ export default mixins(promiseable).extend({
         this.submit && this.submit(this.date)
         this.resolve(this.date)
       } else {
-        const dateTime = parseTime(new Date(`${this.date} ${this.time}`))
+        const dateTime = this.hideTime
+          ? parseTime(new Date(`${this.date} 00:00:00`), '{y}-{m}-{d}')
+          : parseTime(new Date(`${this.date} ${this.time}`))
         this.$emit('input', dateTime)
         this.submit && this.submit(dateTime)
         this.resolve(dateTime)
@@ -177,7 +181,7 @@ export default mixins(promiseable).extend({
                 }
               })
             ]),
-            gen(VCol, [
+            !this.hideTime && gen(VCol, [
               gen(VTextField, {
                 props: {
                   value: this.range ? this.date[1] : this.time,
@@ -228,7 +232,7 @@ export default mixins(promiseable).extend({
               },
               on: {
                 input: val => {
-                  if (!this.range) {
+                  if (!this.range && !this.hideTime) {
                     this.tab = 1
                   }
                   this.date = val
@@ -236,7 +240,7 @@ export default mixins(promiseable).extend({
               }
             })
           ]),
-          gen(VTabItem, [
+          !this.hideTime && gen(VTabItem, [
             gen(VTimePicker, {
               class: 'elevation-0',
               props: {
