@@ -95,6 +95,10 @@ export default {
     }
   },
   methods: {
+    genSlots () {
+      const gen = this.$createElement
+      return Object.keys(this.$slots).map(key => gen('div', { slot: key }, this.$slots[key]))
+    },
     genDataIterator () {
       const gen = this.$createElement
       return gen(VDataIterator, {
@@ -103,9 +107,8 @@ export default {
         ],
         props: this.commonProps,
         on: this.commonListeners,
-        slots: this.$slots,
         scopedSlots: this.$scopedSlots
-      })
+      }, this.genSlots())
     },
     genDataTable () {
       const gen = this.$createElement
@@ -116,13 +119,11 @@ export default {
         ],
         props: this.commonProps,
         on: this.commonListeners,
-        slots: this.$slots,
         scopedSlots: this.$scopedSlots
-      })
+      }, this.genSlots())
     },
     genPagination () {
       const gen = this.$createElement
-
       return gen(VContainer, { props: { fluid: true } }, [
         gen(VRow, {
           props: {
