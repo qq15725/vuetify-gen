@@ -72,6 +72,7 @@ export default {
     },
     commonListeners () {
       return {
+        ...this.$listeners,
         pagination: (pagination) => {
           this.pagination = {
             ...pagination
@@ -90,7 +91,6 @@ export default {
             itemsPerPage: this.dataItemsPerPage
           })
         },
-        ...this.$listeners
       }
     }
   },

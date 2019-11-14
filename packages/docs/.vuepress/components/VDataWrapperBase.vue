@@ -12,6 +12,8 @@
       :loadmore="loadmore"
       :iterator="iterator"
       @load="onLoad"
+      :server-items-length="serverItemsLength"
+      @update:options="onUpdateOptions"
     >
       <template v-slot:item.name="{ item }">
         {{ item.name }}
@@ -39,7 +41,7 @@
     data () {
       return {
         iterator: false,
-        loadmore: false,
+        loadmore: true,
         loading: false,
         headers: [
           {
@@ -75,6 +77,11 @@
         ]
       }
     },
+    computed: {
+      serverItemsLength () {
+        return this.items.length
+      }
+    },
     methods: {
       async onLoad () {
         this.loading = true
@@ -89,6 +96,9 @@
           }
           this.loading = false
         }, 2000)
+      },
+      onUpdateOptions (options) {
+        console.log(options)
       }
     }
   }
