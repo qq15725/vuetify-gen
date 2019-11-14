@@ -160,7 +160,8 @@ export default {
             gen(VPagination, {
               props: {
                 value: this.pagination.page,
-                length: Math.ceil(this.itemsLength / this.dataItemsPerPage)
+                length: Math.ceil(this.itemsLength / this.dataItemsPerPage),
+                totalVisible: this.$vuetify.breakpoint.xs ? 5 : 7
               },
               on: {
                 input: val => this.pagination.page = val

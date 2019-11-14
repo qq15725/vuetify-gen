@@ -82,16 +82,20 @@ export default mixins(promiseable).extend({
     },
     onSubmit () {
       if (this.range) {
-        this.$emit('input', this.date)
-        this.submit && this.submit(this.date)
-        this.resolve(this.date)
+        if (this.date) {
+          this.$emit('input', this.date)
+          this.submit && this.submit(this.date)
+          this.resolve(this.date)
+        }
       } else {
-        const dateTime = this.hideTime
-          ? parseTime(new Date(`${this.date} 00:00:00`), '{y}-{m}-{d}')
-          : parseTime(new Date(`${this.date} ${this.time}`))
-        this.$emit('input', dateTime)
-        this.submit && this.submit(dateTime)
-        this.resolve(dateTime)
+        if (this.date) {
+          const dateTime = this.hideTime
+            ? parseTime(new Date(`${this.date} 00:00:00`), '{y}-{m}-{d}')
+            : parseTime(new Date(`${this.date} ${this.time}`))
+          this.$emit('input', dateTime)
+          this.submit && this.submit(dateTime)
+          this.resolve(dateTime)
+        }
       }
       this.isActive = false
     },
