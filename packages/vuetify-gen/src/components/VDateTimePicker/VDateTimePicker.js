@@ -38,7 +38,7 @@ export default mixins(promiseable).extend({
     range: Boolean,
     dialog: Boolean,
     persistent: Boolean,
-
+    dense: Boolean,
     submit: Function,
     cancel: Function,
 
@@ -89,9 +89,10 @@ export default mixins(promiseable).extend({
         }
       } else {
         if (this.date) {
+          const time = this.time || '00:00:00'
           const dateTime = this.hideTime
             ? parseTime(new Date(`${this.date} 00:00:00`), '{y}-{m}-{d}')
-            : parseTime(new Date(`${this.date} ${this.time}`))
+            : parseTime(new Date(`${this.date} ${time}`))
           this.$emit('input', dateTime)
           this.submit && this.submit(dateTime)
           this.resolve(dateTime)
@@ -112,6 +113,7 @@ export default mixins(promiseable).extend({
           value: this.range ? (this.value || []).join(' - ') : this.value,
           outlined: true,
           readonly: true,
+          dense: this.dense,
           ...this.$attrs
         }
       })
@@ -174,8 +176,10 @@ export default mixins(promiseable).extend({
                       this.tab = 0
                     }
                   },
-                  input: val => {
+                  change: val => {
+                    if (!val) return
                     const date = parseTime(new Date(val), '{y}-{m}-{d}')
+                    if (date === '0-0-0') return
                     if (this.range) {
                       this.$set(this.date, 0, date)
                     } else {
@@ -199,7 +203,8 @@ export default mixins(promiseable).extend({
                       this.tab = 1
                     }
                   },
-                  input: val => {
+                  change: val => {
+                    if (val) return
                     const time = parseTime(new Date(`${this.date} ${val}`), '{h}:{i}:{s}')
                     if (this.range) {
                       this.$set(this.date, 1, time)

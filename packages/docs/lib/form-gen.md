@@ -1,1 +1,3 @@
-<v-example example="form-gen"></v-example>
+## 表单生成
+
+<v-form-gen-base></v-form-gen-base>
