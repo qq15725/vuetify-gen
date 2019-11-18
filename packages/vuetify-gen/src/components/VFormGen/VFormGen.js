@@ -56,7 +56,7 @@ export default {
     },
     genItem (name, tag, data, children) {
       let mapping = {}
-      if (typeof tag === 'string') {
+      if (typeof tag === 'string' && this.$vuetifyGen.form[tag]) {
         if (typeof this.$vuetifyGen.form[tag] === 'function') {
           mapping = this.$vuetifyGen.form[tag](data)
         } else {
