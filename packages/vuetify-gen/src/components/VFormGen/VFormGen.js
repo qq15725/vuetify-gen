@@ -76,7 +76,7 @@ export default {
             mapping.staticClass || '',
             this.dense ? 'caption' : ''
           ].filter(i => !!i).join(' '),
-          props: {
+          attrs: {
             [model.prop]: this.getObjectValueByPath(this.value, name),
             errorMessages: this.getErrorMessages(name),
             dense: this.dense,
