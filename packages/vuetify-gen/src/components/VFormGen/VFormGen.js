@@ -15,10 +15,7 @@ export default {
       type: Object,
       default: () => ({})
     },
-    lazyValidation: {
-      type: Boolean,
-      default: true
-    },
+    lazyValidation: Boolean,
     items: {
       type: Array,
       default: () => ([])
@@ -27,7 +24,8 @@ export default {
       type: Object,
       default: () => ({})
     },
-    dense: Boolean
+    dense: Boolean,
+    noGutters: Boolean
   },
   methods: {
     submit (e) {
@@ -44,11 +42,13 @@ export default {
     },
     setObjectValueByPath (obj, name, value) {
       if (name && name.indexOf('|') > -1) {
-        name.split('|').forEach((item, index) => {
-          setObjectValueByPath(obj, item, value[index])
+        name.split('|').forEach((subname, index) => {
+          setObjectValueByPath(obj, subname, value[index])
+          this.resetErrorMessages(subname)
         })
       } else {
         setObjectValueByPath(obj, name, value)
+        this.resetErrorMessages(name)
       }
       this.$emit('input', this.value)
     },
@@ -58,6 +58,12 @@ export default {
         return message.join(',')
       }
       return message
+    },
+    resetErrorMessages (name) {
+      if (this.getErrorMessages(name)) {
+        setObjectValueByPath(this.errors, name, '')
+        this.$emit('update:errors', this.errors)
+      }
     },
     genItem (name, tag, data, children) {
       let mapping = {}
@@ -100,7 +106,9 @@ export default {
           return this.genItem(item.name, item.is || item.tag, data, item.children || [])
         })
       )
-    },
+    }
+  },
+  computed: {
     genItems () {
       return this.items.map(item => {
         const {
@@ -140,11 +148,14 @@ export default {
       ref: 'form'
     }, [
       gen(VRow, {
-        align: 'center',
-        dense: this.dense
+        props: {
+          align: 'center',
+          noGutters: this.noGutters,
+          dense: this.dense
+        }
       }, [
         this.$slots.before,
-        this.genItems(),
+        this.genItems,
         this.$slots.after,
         this.$slots.default
       ])

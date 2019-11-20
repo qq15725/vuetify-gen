@@ -4,15 +4,19 @@
       <v-col cols="12">
         <v-btn @click="$form({ title: 'title', items, outlined: true }).then(submit)" color="primary">表单弹窗</v-btn>
       </v-col>
+      {{ form }}
       <v-col cols="12">
-        {{ form }}
-        <v-form-gen
-          v-model="form"
-          :items="items"
-          outlined
-          dense
-        >
-        </v-form-gen>
+        <v-card>
+          <v-card-text>
+            <v-form-gen
+              v-model="form"
+              :items="items"
+              @submit="submit"
+              outlined
+            >
+            </v-form-gen>
+          </v-card-text>
+        </v-card>
       </v-col>
     </v-row>
   </v-container>
@@ -25,7 +29,18 @@
         form: {},
         items: [
           {
-            tag: 'input',
+            is: 'text',
+            name: 'name',
+            data: {
+              props: {
+                label: 'post name',
+                required: true
+              }
+            }
+          },
+          { is: 'v-divider' },
+          {
+            is: 'input',
             name: 'input',
             data: {
               props: {
@@ -35,97 +50,87 @@
               directives: [
                 {
                   name: 'mask',
-                  value: '#/#/#'
+                  value: '####-####-####'
                 }
               ]
             },
             cols: 6
           },
           {
-            tag: 'number',
+            is: 'number',
             name: 'number',
-            data: {
-              props: {
-                label: 'xxx',
-                placeholder: 'username label'
-              }
+            props: {
+              label: 'xxx',
+              placeholder: 'username label'
             },
             cols: 6
           },
+          { is: 'v-divider' },
           {
-            tag: 'select',
+            is: 'select',
             name: 'select',
-            data: {
-              props: {
-                label: 'xxx',
-                placeholder: 'username label',
-                items: [
-                  'asdasdsd',
-                  'asdasdsdsadds'
-                ]
-              }
+            props: {
+              label: 'username',
+              items: [
+                'asdasdsd',
+                'asdasdsdsadds'
+              ]
             },
             cols: 6
           },
           {
-            tag: 'switch',
+            is: 'switch',
             name: 'switch',
-            data: {
-              props: {
-                label: 'switch'
-              }
+            props: {
+              label: 'switch'
             },
             cols: 6
           },
+          { is: 'v-divider' },
           {
-            tag: 'checkbox',
+            is: 'checkbox',
             name: 'checkbox',
-            data: {
-              props: {
-                label: 'checkbox1',
-                value: 'checkbox1'
-              }
+            props: {
+              label: 'checkbox1',
+              value: 'checkbox1'
             },
             cols: 6
           },
           {
-            tag: 'radio',
+            is: 'radio',
             name: 'radio',
-            data: {
-              props: {
-                label: 'radio',
-                row: true,
-                items: [
-                  {
-                    label: 'radio1',
-                    value: 1
-                  },
-                  {
-                    label: 'radio2',
-                    value: 2
-                  }
-                ]
-              }
+            props: {
+              label: 'radio',
+              row: true,
+              items: [
+                {
+                  label: 'radio1',
+                  value: 1
+                },
+                {
+                  label: 'radio2',
+                  value: 2
+                }
+              ]
             },
             cols: 6
           },
-          {
-            tag: 'slider',
-            name: 'slider',
-            cols: 6
-          },
-          {
-            tag: 'date',
-            name: 'date',
-            cols: 6
-          },
+          { is: 'v-divider' },
           {
             is: 'date',
             name: 'date',
             props: {
+              label: '日期时间选择'
+            }
+          },
+          { is: 'v-divider' },
+          {
+            is: 'date',
+            name: 'date',
+            props: {
+              label: '日期选择',
               hideTime: true
-            },
-            cols: 6
+            }
           }
         ]
       }

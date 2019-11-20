@@ -38,7 +38,6 @@ export default mixins(promiseable).extend({
     range: Boolean,
     dialog: Boolean,
     persistent: Boolean,
-    dense: Boolean,
     submit: Function,
     cancel: Function,
 
@@ -66,6 +65,14 @@ export default mixins(promiseable).extend({
     isActive (val) {
       if (this.dialog) {
         !!val !== this.value && this.$emit('input', val)
+      }
+    }
+  },
+  computed: {
+    attrs () {
+      return {
+        ...this.$attrs,
+        ...this.$options.propsData
       }
     }
   },
@@ -111,10 +118,8 @@ export default mixins(promiseable).extend({
         on,
         props: {
           value: this.range ? (this.value || []).join(' - ') : this.value,
-          outlined: true,
           readonly: true,
-          dense: this.dense,
-          ...this.$attrs
+          ...this.attrs
         }
       })
     },
