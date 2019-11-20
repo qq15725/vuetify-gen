@@ -47,6 +47,14 @@ export default baseMixins.extend({
       tempForm: {}
     }
   },
+  computed: {
+    attrs () {
+      return {
+        ...this.$attrs,
+        ...this.$options.propsData
+      }
+    }
+  },
   watch: {
     form: {
       handler (form) {
@@ -73,7 +81,7 @@ export default baseMixins.extend({
     onCancel () {
       this.cancel && this.cancel()
       this.$emit('cancel')
-      this.reject(new Error('cancel'))
+      this.resolve(false)
       this.isActive = false
     }
   },
@@ -108,11 +116,11 @@ export default baseMixins.extend({
           class: ['pa-3']
         }, [
           gen(VFormGen, {
-            props: {
+            attrs: {
               value: this.tempForm,
               items: this.items,
               errors: this.errors,
-              outlined: true
+              ...this.attrs
             },
             on: {
               input: val => this.tempForm = val,

@@ -50,6 +50,7 @@
   ],
   "gitHead": "e66f3814ca33c0f5b0c2bdcf126edf67174e0431",
   "dependencies": {
-    "qrcodejs2": "^0.0.2"
+    "qrcodejs2": "^0.0.2",
+    "vue-the-mask": "^0.11.1"
   }
 }

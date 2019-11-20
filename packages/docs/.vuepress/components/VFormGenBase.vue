@@ -2,7 +2,7 @@
   <v-container>
     <v-row>
       <v-col cols="12">
-        <v-btn @click="$form('title', items).then(submit)" color="primary">表单弹窗</v-btn>
+        <v-btn @click="$form({ title: 'title', items, outlined: true }).then(submit)" color="primary">表单弹窗</v-btn>
       </v-col>
       <v-col cols="12">
         {{ form }}
@@ -31,7 +31,13 @@
               props: {
                 label: 'xxx',
                 placeholder: 'username label'
-              }
+              },
+              directives: [
+                {
+                  name: 'mask',
+                  value: '#/#/#'
+                }
+              ]
             },
             cols: 6
           },

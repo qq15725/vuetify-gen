@@ -2,9 +2,14 @@ import { VCol, VForm, VRow } from 'vuetify/lib'
 
 import { getObjectValueByPath, setObjectValueByPath } from '../../util'
 
+import { mask } from 'vue-the-mask'
+
 export default {
   inheritAttrs: false,
   name: 'v-form-gen',
+  directives: {
+    mask
+  },
   props: {
     value: {
       type: Object,

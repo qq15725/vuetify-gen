@@ -1,7 +1,7 @@
 <script>
   const template = `
 <div>
-  <v-btn @click="$confirm('这是一条长文字提示，超过一定字数就会换行').then(success)" color="primary">确定框</v-btn>
+  <v-btn @click="$confirm('这是一条长文字提示，超过一定字数就会换行').then(handler)" color="primary">确定框</v-btn>
   <v-btn @click="$confirm('这是一条长文字提示，超过一定字数就会换行', true)" color="primary">不可关闭的确定框</v-btn>
 </div>
 `
@@ -14,8 +14,8 @@
     },
     template,
     methods: {
-      success () {
-        window.console.log('success')
+      handler (val) {
+        val && window.console.log('success')
       }
     }
   }

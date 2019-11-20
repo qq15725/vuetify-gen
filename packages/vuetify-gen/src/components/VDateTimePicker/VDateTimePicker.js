@@ -103,7 +103,7 @@ export default mixins(promiseable).extend({
     onCancel () {
       this.cancel && this.cancel()
       this.$emit('cancel')
-      this.reject(new Error('cancel'))
+      this.resolve(false)
       this.isActive = false
     },
     defaultActivator ({ on }) {
