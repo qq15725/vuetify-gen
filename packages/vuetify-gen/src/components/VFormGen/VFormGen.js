@@ -112,7 +112,9 @@ export default {
                 prop: 'value',
                 event: 'input'
               },
-              value: this.getObjectValueByPath(this.value, props.name),
+              value: this.getObjectValueByPath(this.value, props.name)
+            },
+            on: {
               input: val => this.setObjectValueByPath(this.value, props.name, val)
             }
           })

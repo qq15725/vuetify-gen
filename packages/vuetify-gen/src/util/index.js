@@ -87,3 +87,7 @@ export function mergeObject (obj1, obj2) {
   }
   return obj1
 }
+
+export function when (whenIf, trueValue, falseValue = null) {
+  return whenIf ? trueValue : falseValue
+}

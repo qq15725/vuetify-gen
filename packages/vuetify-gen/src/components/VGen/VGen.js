@@ -17,61 +17,73 @@ export default {
       default: () => ([])
     },
     value: null,
-    input: [Function],
     model: Object
   },
   computed: {
     is () {
       return this.tag || this.$attrs.is || 'div'
     },
+    realData () {
+      return (this.props ? { props: this.props } : this.data) || {}
+    },
     mapping () {
       let mapping = this.$vuetifyGenMapping[this.is] || {}
-      mapping = typeof mapping === 'function' ? mapping(this.data) : mapping
+      mapping = typeof mapping === 'function' ? mapping(this.realData) : mapping
       return mapping
+    },
+    realMappingData () {
+      return (this.mapping.props ? { props: this.mapping.props } : this.mapping.data) || {}
     },
     computedTag () {
       return this.mapping.tag || this.is
     },
     computedData () {
-      let data = (this.props ? { props: this.props } : this.data) || {}
+      let data = this.realData
 
-      if (this.mapping) {
-        data = mergeObject(data, this.mapping)
-      }
+      data = mergeObject(data, this.realMappingData)
 
-      if (this.model) {
-        if (this.model.prop) {
+      const model = this.mapping.model || this.model
+
+      if (model) {
+        if (model.prop) {
           data = mergeObject(data, {
+            props: {
+              [model.prop]: this.value
+            },
             attrs: {
-              [this.model.prop]: this.value
+              [model.prop]: this.value
             }
           })
         }
-        if (this.model.event && this.input) {
+
+        if (model.event) {
           data = mergeObject(data, {
             on: {
-              [this.model.event]: this.input
+              [model.event]: val => {
+                this.$emit('input', val)
+              }
             }
           })
         }
       }
 
-      return { ...data }
+      return data
     },
     computedChildren () {
-      if (Array.isArray(this.children)) {
-        return this.children.map(attrs => {
+      const children = this.mapping.children || this.children
+      if (Array.isArray(children)) {
+        return children.map(attrs => {
           if (typeof attrs === 'object') {
             return this.$createElement('v-gen', { attrs })
           }
           return attrs
         })
       }
-      return this.children
+      return children
     }
   },
 
   render (gen) {
-    return gen(this.computedTag, this.computedData, this.computedChildren)
+    return gen(this.computedTag, { ...this.computedData }, [...this.computedChildren])
   }
 }
