@@ -13,7 +13,7 @@ export default {
     props: Object,
     data: Object,
     children: {
-      type: Array,
+      type: null,
       default: () => ([])
     },
     value: null,
@@ -59,7 +59,15 @@ export default {
       return { ...data }
     },
     computedChildren () {
-      return this.children.map(attrs => gen('v-gen', { attrs }))
+      if (Array.isArray(this.children)) {
+        return this.children.map(attrs => {
+          if (typeof attrs === 'object') {
+            return this.$createElement('v-gen', { attrs })
+          }
+          return attrs
+        })
+      }
+      return this.children
     }
   },
 
