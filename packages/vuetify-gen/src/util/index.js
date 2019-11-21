@@ -78,3 +78,12 @@ export function setObjectValueByPath (obj, path, value) {
   path = path.replace(/^\./, '')
   return setNestedValue(obj, path.split('.'), value)
 }
+
+export function mergeObject (obj1, obj2) {
+  for (let key in obj2) {
+    obj1[key] = obj1[key] && obj1[key].toString() === '[object Object]'
+      ? mergeObject(obj1[key], obj2[key])
+      : obj1[key] = obj2[key]
+  }
+  return obj1
+}

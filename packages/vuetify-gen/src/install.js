@@ -1,4 +1,4 @@
-export function install (Vue, args = {}) {
+export function install (Vue, { vuetify, components = {}, ...options }) {
   if (Vue.$_vuetify_gen_installed) return
   Vue.$_vuetify_gen_installed = true;
 
@@ -8,7 +8,8 @@ export function install (Vue, args = {}) {
         const component = components[key]
         if (component.install) {
           Vue.use(component, {
-            vuetify: args.vuetify
+            vuetify,
+            ...options
           })
         } else {
           Vue.component(key, component)
@@ -17,11 +18,5 @@ export function install (Vue, args = {}) {
       return true
     }
     return false
-  })(args.components || {})
-
-  const form = args.form || {}
-
-  Vue.$vuetifyGen = Vue.prototype.$vuetifyGen = {
-    form
-  }
+  })(components)
 }

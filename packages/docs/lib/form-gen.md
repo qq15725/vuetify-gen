@@ -5,7 +5,7 @@
 ```javascript
 [
   {
-    is: 'text',
+    tag: 'text',
     name: 'name',
     data: {
       props: {
@@ -14,7 +14,7 @@
       }
     }
   },
-  { is: 'v-divider' },
+  { tag: 'v-divider' },
   {
     tag: 'input',
     name: 'input',
@@ -35,89 +35,41 @@
   {
     tag: 'number',
     name: 'number',
-    data: {
-      props: {
-        label: 'xxx',
-        placeholder: 'username label'
-      }
+    props: {
+      label: 'xxx',
+      placeholder: 'username label'
     },
     cols: 6
   },
-  { is: 'v-divider' },
+  { tag: 'v-divider' },
   {
     tag: 'select',
     name: 'select',
-    data: {
-      props: {
-        label: 'xxx',
-        placeholder: 'username label',
-        items: [
-          'asdasdsd',
-          'asdasdsdsadds'
-        ]
-      }
+    props: {
+      label: 'username',
+      items: [
+        'asdasdsd',
+        'asdasdsdsadds'
+      ]
     },
-    cols: 6
+    cols: 12
   },
-  {
-    tag: 'switch',
-    name: 'switch',
-    data: {
-      props: {
-        label: 'switch'
-      }
-    },
-    cols: 6
-  },
-  {
-    tag: 'checkbox',
-    name: 'checkbox',
-    data: {
-      props: {
-        label: 'checkbox1',
-        value: 'checkbox1'
-      }
-    },
-    cols: 6
-  },
-  {
-    tag: 'radio',
-    name: 'radio',
-    data: {
-      props: {
-        label: 'radio',
-        row: true,
-        items: [
-          {
-            label: 'radio1',
-            value: 1
-          },
-          {
-            label: 'radio2',
-            value: 2
-          }
-        ]
-      }
-    },
-    cols: 6
-  },
-  {
-    tag: 'slider',
-    name: 'slider',
-    cols: 6
-  },
+  { tag: 'v-divider' },
   {
     tag: 'date',
     name: 'date',
-    cols: 6
+    props: {
+      label: '日期时间选择'
+    }
   },
+  { tag: 'v-divider' },
   {
-    is: 'date',
+    tag: 'date',
     name: 'date',
     props: {
+      label: '日期选择',
       hideTime: true
-    },
-    cols: 6
+    }
   }
 ]
 ```

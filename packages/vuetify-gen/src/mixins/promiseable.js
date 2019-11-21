@@ -17,10 +17,22 @@ export function factory () {
         this.rejectFn = reject
       },
       resolve (...args) {
-        return this.resolveFn && this.resolveFn(...args)
+        const fn = this.resolveFn
+        if (fn) {
+          this.resolveFn = null
+          this.rejectFn = null
+          return fn(...args)
+        }
+        return null
       },
       reject (...args) {
-        return this.rejectFn && this.rejectFn(...args)
+        const fn = this.rejectFn
+        if (fn) {
+          this.resolveFn = null
+          this.rejectFn = null
+          return fn(...args)
+        }
+        return null
       }
     }
   })

@@ -15,9 +15,10 @@ import {
   VNotify,
   VNotifyInstall,
   VLoadmore,
-  VDataWrapper
+  VDataWrapper,
+  VGen,
+  VGenMapping
 } from 'vuetify-gen/src/components'
-import VFormGenMap from 'vuetify-gen/src/components/VFormGen/VFormGenMap'
 import highlight from 'highlight.js'
 import 'highlight.js/styles/color-brewer.css'
 
@@ -46,7 +47,6 @@ export default ({ Vue, options, router, siteData }) => {
   options.vuetify = vuetify
 
   Vue.use(vuetifyGen, {
-    form: VFormGenMap,
     vuetify,
     components: {
       VToast,
@@ -60,7 +60,9 @@ export default ({ Vue, options, router, siteData }) => {
       VNotify,
       VNotifyInstall,
       VLoadmore,
-      VDataWrapper
+      VDataWrapper,
+      VGen,
+      VGenMapping
     }
   })
 }

@@ -28,6 +28,15 @@ export default baseMixins.extend({
     ok: Function,
     cancel: Function
   },
+  watch: {
+    isActive (val) {
+      !!val !== this.value && this.$emit('input', val)
+
+      if (!val) {
+        this.resolve(false)
+      }
+    }
+  },
   methods: {
     onOk () {
       this.ok && this.ok()
@@ -38,7 +47,6 @@ export default baseMixins.extend({
     onCancel () {
       this.cancel && this.cancel()
       this.$emit('cancel')
-      this.resolve(false)
       this.isActive = false
     }
   },

@@ -24,11 +24,12 @@ module.exports = {
             ['toast', 'VToast（轻提示）'],
             ['notify', 'VNotify（通知）'],
             ['confirm', 'VConfirm（确定）'],
-            ['form-gen', 'VFormGen（表单生成）'],
             ['date-time-picker', 'VDateTimePicker（日期选择）'],
             ['qrcode', 'VQrcode（二维码）'],
             ['loadmore', 'VLoadmore（加载更多）'],
-            ['data-wrapper', 'VDataWrapper（数据包装器）']
+            ['data-wrapper', 'VDataWrapper（数据包装器）'],
+            ['gen', 'VGen（组件生成）'],
+            ['form-gen', 'VFormGen（表单生成）']
           ]
         }
       ]

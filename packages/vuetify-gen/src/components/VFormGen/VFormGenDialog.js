@@ -69,6 +69,13 @@ export default baseMixins.extend({
       },
       immediate: true,
       deep: true
+    },
+    isActive (val) {
+      !!val !== this.value && this.$emit('input', val)
+
+      if (!val) {
+        this.resolve(false)
+      }
     }
   },
   methods: {
@@ -81,7 +88,6 @@ export default baseMixins.extend({
     onCancel () {
       this.cancel && this.cancel()
       this.$emit('cancel')
-      this.resolve(false)
       this.isActive = false
     }
   },

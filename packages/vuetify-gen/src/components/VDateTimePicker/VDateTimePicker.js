@@ -65,6 +65,10 @@ export default mixins(promiseable).extend({
     isActive (val) {
       if (this.dialog) {
         !!val !== this.value && this.$emit('input', val)
+
+        if (!val) {
+          this.resolve(false)
+        }
       }
     }
   },
@@ -110,7 +114,6 @@ export default mixins(promiseable).extend({
     onCancel () {
       this.cancel && this.cancel()
       this.$emit('cancel')
-      this.resolve(false)
       this.isActive = false
     },
     defaultActivator ({ on }) {
