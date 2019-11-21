@@ -9,14 +9,14 @@ export default {
     mask
   },
   props: {
-    tag: [String, Object, Function],
+    tag: null,
     props: Object,
     data: Object,
     children: {
       type: Array,
       default: () => ([])
     },
-    value: [String, Number, Object, Function],
+    value: null,
     input: [Function],
     model: Object
   },
