@@ -2,7 +2,7 @@ import VGen from '../VGen'
 
 import { VCol, VForm, VRow } from 'vuetify/lib'
 
-import { getObjectValueByPath, setObjectValueByPath, mergeObject } from '../../util'
+import { getObjectValueByPath, setObjectValueByPath } from '../../util'
 
 export default {
   inheritAttrs: false,
@@ -74,28 +74,32 @@ export default {
   computed: {
     genItems () {
       return this.items.map(({ cols = '12', sm, md, lg, ...params }) => {
-        const { prop, event } = params.model || {
-          prop: 'value',
-          event: 'input'
-        }
+        let { name, tag, model, ...attrs } = params
 
-        let { name, props, on, ...data } = params
+        let data = {}
 
         if (name) {
-          props = { ...props }
+          const { prop, event } = model || {
+            prop: 'value',
+            event: 'input'
+          }
 
-          props = mergeObject(props || {}, this.$attrs)
+          this._b(data, '', this.$attrs, false)
 
-          props = mergeObject(props, {
+          this._b(data, '', {
             name,
             errorMessages: this.getErrorMessages(name),
             [prop]: this.getObjectValueByPath(this.value, name)
-          })
+          }, false)
 
-          on = mergeObject(on || {}, {
+          this._g(data, {
             [event]: val => this.setObjectValueByPath(this.value, name, val)
           })
         }
+
+        attrs.tag = tag
+
+        this._b(data, '', attrs, false)
 
         return this.$createElement(VCol, {
           props: {
@@ -105,13 +109,7 @@ export default {
             lg
           }
         }, [
-          this.$createElement(VGen, {
-            attrs: {
-              attrs: props,
-              ...data
-            },
-            on
-          })
+          this.$createElement(VGen, data)
         ])
       })
     }

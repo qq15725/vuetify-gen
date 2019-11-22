@@ -31,9 +31,7 @@ export default {
       },
       number: {
         tag: VTextField,
-        props: {
-          type: 'number'
-        }
+        type: 'number'
       },
       textarea: {
         tag: VTextarea
@@ -55,7 +53,7 @@ export default {
           event: 'change'
         }
       },
-      radio: ({ props: { items = [] } }) => ({
+      radio: ({ attrs: { items = [] } }) => ({
         tag: VRadioGroup,
         model: {
           prop: 'inputValue',
@@ -63,7 +61,7 @@ export default {
         },
         children: items.map(({ label, value }) => ({
           tag: VRadio,
-          props: {
+          attrs: {
             label,
             value
           }
@@ -79,38 +77,36 @@ export default {
       date: {
         tag: VDateTimePicker
       },
-      card: ({ props }) => ({
+      card: ({ attrs }) => ({
         tag: VCard,
         children: [
-          when(props.cover && props.cover.src, {
+          when(attrs.cover && attrs.cover.src, {
             tag: VImg,
-            props: {
-              src: props.cover.src,
-              aspectRatio: props.cover.aspectRatio || 2
-            },
+            src: attrs.cover.src,
+            aspectRatio: attrs.cover.aspectRatio || 2,
             key: 'cover'
           }),
-          when(props.title, {
+          when(attrs.title, {
             tag: VCardTitle,
-            children: props.title,
+            children: attrs.title,
             key: 'title'
           }),
-          when(props.subtitle, {
+          when(attrs.subtitle, {
             tag: VCardSubtitle,
-            children: props.subtitle,
+            children: attrs.subtitle,
             key: 'subtitle'
           }),
-          when(props.text, {
+          when(attrs.text, {
             tag: VCardText,
             style: {
               whiteSpace: 'pre-wrap'
             },
-            children: props.text,
+            children: attrs.text,
             key: 'text'
           })
         ].sort((a, b) => {
-          if (props.sort) {
-            const sort = props.sort.split(',') || []
+          if (attrs.sort) {
+            const sort = attrs.sort.split(',') || []
             let sortA = a ? sort.findIndex(key => key === a.key) : 100
             sortA = sortA < 0 ? 100 : sortA
             let sortB = b ? sort.findIndex(key => key === b.key) : 100
@@ -120,11 +116,11 @@ export default {
           return 0
         })
       }),
-      list: ({ props }) => ({
+      list: ({ attrs }) => ({
         tag: 'v-list',
-        children: (props.items || []).map(item => ({
+        children: (attrs.items || []).map(item => ({
           tag: 'v-list-item',
-          props: {
+          attrs: {
             href: item.href
           },
           children: [

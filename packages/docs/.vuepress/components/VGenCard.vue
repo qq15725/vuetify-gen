@@ -24,16 +24,10 @@
         </v-form-gen>
       </v-card>
     </v-col>
-
-    <v-col cols="12">
-      <pre class="white--text">{{ createVNodeConstruct(items[0]) }}</pre>
-    </v-col>
   </v-row>
 </template>
 
 <script>
-  import { createVNodeConstruct } from 'vuetify-gen/src/components/VGen/create-vnode-construct'
-
   export default {
     data () {
       return {
@@ -51,107 +45,82 @@
           {
             tag: 'text',
             name: 'title',
-            props: {
-              label: '卡片标题'
-            }
+            label: '卡片标题'
           },
           { tag: 'v-divider' },
           {
             tag: 'text',
             name: 'subtitle',
-            props: {
-              label: '卡片副标题'
-            }
+            label: '卡片副标题'
           },
           { tag: 'v-divider' },
           {
             tag: 'textarea',
             name: 'text',
-            props: {
-              label: '卡片正文'
-            }
+            label: '卡片正文'
           },
           { tag: 'v-divider' },
           {
             tag: 'text',
             name: 'href',
-            props: {
-              label: '卡片链接'
-            }
+            label: '卡片链接'
           },
           { tag: 'v-divider' },
           {
             tag: 'text',
             name: 'cover.src',
-            props: {
-              label: '卡片封面'
-            }
+            label: '卡片封面'
           },
           { tag: 'v-divider' },
           {
             tag: 'number',
             name: 'cover.aspectRatio',
-            props: {
-              label: '卡片封面宽高比'
-            }
+            label: '卡片封面宽高比'
           },
           { tag: 'v-divider' },
           {
             tag: 'text',
             name: 'sort',
-            props: {
-              label: '排序'
-            }
+            label: '排序'
           },
           { tag: 'v-divider' },
           {
             tag: 'checkbox',
             name: 'flat',
             staticClass: 'mb-5 mx-1',
-            props: {
-              label: 'flat'
-            },
+            label: 'flat',
             cols: 'auto'
           },
           {
             tag: 'checkbox',
             name: 'tile',
             staticClass: 'mb-5 mx-1',
-            props: {
-              label: 'tile'
-            },
+            label: 'tile',
             cols: 'auto'
           },
           {
             tag: 'checkbox',
             name: 'outlined',
             staticClass: 'mb-5 mx-1',
-            props: {
-              label: 'outlined'
-            },
+            label: 'outlined',
             cols: 'auto'
           },
           {
             tag: 'checkbox',
             name: 'shaped',
             staticClass: 'mb-5 mx-1',
-            props: {
-              label: 'shaped'
-            },
+            label: 'shaped',
             cols: 'auto'
           }
         ]
       }
-    },
-    methods: {
-      createVNodeConstruct
     },
     computed: {
       items () {
         return [
           {
             tag: 'card',
-            props: this.formData
+            ...this.formData
           }
         ]
       }

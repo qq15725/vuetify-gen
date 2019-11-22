@@ -48,19 +48,15 @@
           {
             tag: 'text',
             name: 'name',
-            props: {
-              label: 'post name',
-              required: true
-            }
+            label: 'post name',
+            required: true
           },
           { tag: 'v-divider' },
           {
             tag: 'input',
             name: 'input',
-            props: {
-              label: 'xxx',
-              placeholder: 'username label'
-            },
+            label: 'xxx',
+            placeholder: 'username label',
             directives: [
               {
                 name: 'mask',
@@ -72,41 +68,33 @@
           {
             tag: 'number',
             name: 'number',
-            props: {
-              label: 'xxx',
-              placeholder: 'username label'
-            },
+            label: 'xxx',
+            placeholder: 'username label',
             cols: 6
           },
           { tag: 'v-divider' },
           {
             tag: 'select',
             name: 'select',
-            props: {
-              label: 'username',
-              items: [
-                'asdasdsd',
-                'asdasdsdsadds'
-              ]
-            },
+            label: 'username',
+            items: [
+              'asdasdsd',
+              'asdasdsdsadds'
+            ],
             cols: 12
           },
           { tag: 'v-divider' },
           {
             tag: 'date',
             name: 'date',
-            props: {
-              label: '日期时间选择'
-            }
+            label: '日期时间选择'
           },
           { tag: 'v-divider' },
           {
             tag: 'date',
             name: 'date',
-            props: {
-              label: '日期选择',
-              hideTime: true
-            }
+            label: '日期选择',
+            hideTime: true
           }
         ]
       }

@@ -1,34 +1,77 @@
-import { mask } from 'vue-the-mask'
+import { isDef } from '../../util'
 
-import { createVNodeConstruct } from './create-vnode-construct'
+import { mask } from 'vue-the-mask'
 
 export default {
   inheritAttrs: false,
   name: 'v-gen',
+  props: {
+    tag: null,
+    children: null,
+    staticClass: null,
+    // 'class': null,
+    // style: null,
+    attrs: null,
+    props: null,
+    domProps: null,
+    on: null,
+    nativeOn: null,
+    directives: null,
+    scopedSlots: null,
+    // slot: null,
+    // key: null,
+    // ref: null,
+    refInFor: null
+  },
   directives: {
     mask
   },
-  render (gen) {
-    const vvnode = {
-      on: this.$listeners,
-      children: this.$slots.default,
-      ...this.$attrs
+  render (createElement) {
+    let tag = this.tag
+    let data = {
+      staticClass: this.staticClass,
+      attrs: this.attrs,
+      props: this.props,
+      domProps: this.domProps,
+      on: this.on,
+      nativeOn: this.nativeOn,
+      directives: this.directives,
+      scopedSlots: this.scopedSlots,
+      refInFor: this.refInFor
+    }
+    this._b(data, '', this.$attrs, false)
+    this._g(data, this.$listeners)
+    let children = this.$slots.default
+
+    if (isDef(this.children)) {
+      if (Array.isArray(this.children)) {
+        children = this.children.map(attrs => typeof attrs === 'object' ? createElement('v-gen', { attrs }) : attrs)
+      } else {
+        children = this.children
+      }
     }
 
-    let [tag, data, children] = createVNodeConstruct(vvnode)
-
-    // children
-    if (Array.isArray(children)) {
-      children = children.map(vvnode => {
-        if (typeof vvnode === 'object') {
-          return gen('v-gen', {
-            attrs: vvnode
-          })
+    // alias mapping && extend data
+    let extend = this.$vuetifyGenMapping[(data.attrs || {}).is || tag]
+    if (extend) {
+      extend = typeof extend === 'function' ? extend(data) : extend
+      const { tag: extendTag, model: extendModel, children: extendChildren, ...extendData } = extend
+      if (extendModel) {
+        const { prop, event } = extendModel
+        this._b(data, '', { [prop]: (data.attrs || {}).value }, false)
+        this._g(data, { [event]: (data.on || {}).input })
+      }
+      tag = extendTag
+      this._b(data, '', extendData, false)
+      if (isDef(extendChildren)) {
+        if (Array.isArray(extendChildren)) {
+          children = extendChildren.map(attrs => typeof attrs === 'object' ? createElement('v-gen', { attrs }) : attrs)
+        } else {
+          children = extendChildren
         }
-        return vvnode
-      })
+      }
     }
 
-    return gen(tag, data, children)
+    return createElement(tag, data, children)
   }
 }
