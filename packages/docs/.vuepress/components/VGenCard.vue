@@ -10,6 +10,7 @@
 
       <pre class="white--text">{{ formData }}</pre>
     </v-col>
+
     <v-col cols="6">
       <v-card>
         <v-form-gen
@@ -23,10 +24,16 @@
         </v-form-gen>
       </v-card>
     </v-col>
+
+    <v-col cols="12">
+      <pre class="white--text">{{ createVNodeConstruct(items[0]) }}</pre>
+    </v-col>
   </v-row>
 </template>
 
 <script>
+  import { createVNodeConstruct } from 'vuetify-gen/src/components/VGen/create-vnode-construct'
+
   export default {
     data () {
       return {
@@ -100,49 +107,44 @@
           {
             tag: 'checkbox',
             name: 'flat',
-            data: {
-              staticClass: 'mb-5 mx-1',
-              props: {
-                label: 'flat'
-              }
+            staticClass: 'mb-5 mx-1',
+            props: {
+              label: 'flat'
             },
             cols: 'auto'
           },
           {
             tag: 'checkbox',
             name: 'tile',
-            data: {
-              staticClass: 'mb-5 mx-1',
-              props: {
-                label: 'tile'
-              }
+            staticClass: 'mb-5 mx-1',
+            props: {
+              label: 'tile'
             },
             cols: 'auto'
           },
           {
             tag: 'checkbox',
             name: 'outlined',
-            data: {
-              staticClass: 'mb-5 mx-1',
-              props: {
-                label: 'outlined'
-              }
+            staticClass: 'mb-5 mx-1',
+            props: {
+              label: 'outlined'
             },
             cols: 'auto'
           },
           {
             tag: 'checkbox',
             name: 'shaped',
-            data: {
-              staticClass: 'mb-5 mx-1',
-              props: {
-                label: 'shaped'
-              }
+            staticClass: 'mb-5 mx-1',
+            props: {
+              label: 'shaped'
             },
             cols: 'auto'
           }
         ]
       }
+    },
+    methods: {
+      createVNodeConstruct
     },
     computed: {
       items () {

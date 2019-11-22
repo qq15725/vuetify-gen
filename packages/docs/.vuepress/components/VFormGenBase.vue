@@ -48,29 +48,25 @@
           {
             tag: 'text',
             name: 'name',
-            data: {
-              props: {
-                label: 'post name',
-                required: true
-              }
+            props: {
+              label: 'post name',
+              required: true
             }
           },
           { tag: 'v-divider' },
           {
             tag: 'input',
             name: 'input',
-            data: {
-              props: {
-                label: 'xxx',
-                placeholder: 'username label'
-              },
-              directives: [
-                {
-                  name: 'mask',
-                  value: '####-####-####'
-                }
-              ]
+            props: {
+              label: 'xxx',
+              placeholder: 'username label'
             },
+            directives: [
+              {
+                name: 'mask',
+                value: '####-####-####'
+              }
+            ],
             cols: 6
           },
           {

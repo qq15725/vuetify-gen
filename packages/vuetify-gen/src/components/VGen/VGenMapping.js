@@ -31,10 +31,8 @@ export default {
       },
       number: {
         tag: VTextField,
-        data: {
-          props: {
-            type: 'number'
-          }
+        props: {
+          type: 'number'
         }
       },
       textarea: {
@@ -65,11 +63,9 @@ export default {
         },
         children: items.map(({ label, value }) => ({
           tag: VRadio,
-          data: {
-            props: {
-              label,
-              value
-            }
+          props: {
+            label,
+            value
           }
         }))
       }),
@@ -83,51 +79,47 @@ export default {
       date: {
         tag: VDateTimePicker
       },
-      card: ({ props }) => {
-        return {
-          tag: VCard,
-          children: [
-            when(props.cover && props.cover.src, {
-              tag: VImg,
-              props: {
-                src: props.cover.src,
-                aspectRatio: props.cover.aspectRatio || 2
-              },
-              key: 'cover'
-            }),
-            when(props.title, {
-              tag: VCardTitle,
-              children: props.title,
-              key: 'title'
-            }),
-            when(props.subtitle, {
-              tag: VCardSubtitle,
-              children: props.subtitle,
-              key: 'subtitle'
-            }),
-            when(props.text, {
-              tag: VCardText,
-              data: {
-                style: {
-                  whiteSpace: 'pre-wrap'
-                }
-              },
-              children: props.text,
-              key: 'text'
-            })
-          ].sort((a, b) => {
-            if (props.sort) {
-              const sort = props.sort.split(',') || []
-              let sortA = a ? sort.findIndex(key => key === a.key) : 100
-              sortA = sortA < 0 ? 100 : sortA
-              let sortB = b ? sort.findIndex(key => key === b.key) : 100
-              sortB = sortB < 0 ? 100 : sortB
-              return sortA - sortB
-            }
-            return 0
+      card: ({ props }) => ({
+        tag: VCard,
+        children: [
+          when(props.cover && props.cover.src, {
+            tag: VImg,
+            props: {
+              src: props.cover.src,
+              aspectRatio: props.cover.aspectRatio || 2
+            },
+            key: 'cover'
+          }),
+          when(props.title, {
+            tag: VCardTitle,
+            children: props.title,
+            key: 'title'
+          }),
+          when(props.subtitle, {
+            tag: VCardSubtitle,
+            children: props.subtitle,
+            key: 'subtitle'
+          }),
+          when(props.text, {
+            tag: VCardText,
+            style: {
+              whiteSpace: 'pre-wrap'
+            },
+            children: props.text,
+            key: 'text'
           })
-        }
-      },
+        ].sort((a, b) => {
+          if (props.sort) {
+            const sort = props.sort.split(',') || []
+            let sortA = a ? sort.findIndex(key => key === a.key) : 100
+            sortA = sortA < 0 ? 100 : sortA
+            let sortB = b ? sort.findIndex(key => key === b.key) : 100
+            sortB = sortB < 0 ? 100 : sortB
+            return sortA - sortB
+          }
+          return 0
+        })
+      }),
       list: ({ props }) => ({
         tag: 'v-list',
         children: (props.items || []).map(item => ({

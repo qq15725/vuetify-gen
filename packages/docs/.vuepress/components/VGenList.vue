@@ -23,10 +23,15 @@
         </v-form-gen>
       </v-card>
     </v-col>
+    <v-col cols="12">
+      <pre class="white--text">{{ createVNodeConstruct(items[0]) }}</pre>
+    </v-col>
   </v-row>
 </template>
 
 <script>
+  import { createVNodeConstruct } from 'vuetify-gen/src/components/VGen/create-vnode-construct'
+
   export default {
     data () {
       return {
@@ -102,6 +107,9 @@
           }
         ]
       }
+    },
+    methods: {
+      createVNodeConstruct
     },
     computed: {
       items () {

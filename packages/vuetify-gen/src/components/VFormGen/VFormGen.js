@@ -69,29 +69,34 @@ export default {
         setObjectValueByPath(this.errors, name, '')
         this.$emit('update:errors', this.errors)
       }
-    },
-    genItemData ({ name, tag, is, data, props, children }) {
-      let componentData = (props ? { props } : data) || {}
-      const componentChildren = (children || []).map(this.genItemData)
-      componentData = mergeObject(componentData, {
-        attrs: {
-          errorMessages: this.getErrorMessages(name)
-        }
-      })
-      componentData = mergeObject(componentData, { attrs: this.$attrs })
-      componentData = mergeObject(componentData, { attrs: componentData.props || {} })
-      return {
-        tag,
-        is,
-        data: componentData,
-        children: componentChildren
-      }
     }
   },
   computed: {
     genItems () {
-      return this.items.map(({ cols = '12', sm, md, lg, ...props }) => {
-        const { tag, is, data, children } = this.genItemData(props)
+      return this.items.map(({ cols = '12', sm, md, lg, ...params }) => {
+        const { prop, event } = params.model || {
+          prop: 'value',
+          event: 'input'
+        }
+
+        let { name, props, on, ...data } = params
+
+        if (name) {
+          props = { ...props }
+
+          props = mergeObject(props || {}, this.$attrs)
+
+          props = mergeObject(props, {
+            name,
+            errorMessages: this.getErrorMessages(name),
+            [prop]: this.getObjectValueByPath(this.value, name)
+          })
+
+          on = mergeObject(on || {}, {
+            [event]: val => this.setObjectValueByPath(this.value, name, val)
+          })
+        }
+
         return this.$createElement(VCol, {
           props: {
             cols,
@@ -102,21 +107,10 @@ export default {
         }, [
           this.$createElement(VGen, {
             attrs: {
-              is
+              attrs: props,
+              ...data
             },
-            props: {
-              tag,
-              data,
-              children,
-              model: data.model || {
-                prop: 'value',
-                event: 'input'
-              },
-              value: this.getObjectValueByPath(this.value, props.name)
-            },
-            on: {
-              input: val => this.setObjectValueByPath(this.value, props.name, val)
-            }
+            on
           })
         ])
       })

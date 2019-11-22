@@ -91,3 +91,21 @@ export function mergeObject (obj1, obj2) {
 export function when (whenIf, trueValue, falseValue = null) {
   return whenIf ? trueValue : falseValue
 }
+
+export const emptyObject = Object.freeze({})
+
+export function isUndef (v) {
+  return v === undefined || v === null
+}
+
+export function isDef (v) {
+  return v !== undefined && v !== null
+}
+
+export function isTrue (v) {
+  return v === true
+}
+
+export function isFalse (v) {
+  return v === false
+}
