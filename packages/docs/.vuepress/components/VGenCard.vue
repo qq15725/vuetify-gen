@@ -8,7 +8,7 @@
       >
       </v-gen>
 
-      <pre class="white--text">{{ formData }}</pre>
+      <pre class="white--text">{{ items }}</pre>
     </v-col>
 
     <v-col cols="6">
