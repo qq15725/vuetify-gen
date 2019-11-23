@@ -1,11 +1,5 @@
 <template>
   <v-row>
-    <v-gen
-      v-bind="obj"
-    >
-    </v-gen>
-
-
     <v-col cols="6">
       <v-gen
         v-for="(item, index) in items"
@@ -37,11 +31,6 @@
   export default {
     data () {
       return {
-        obj: {
-          tag: 'product-card',
-          title: 'asdsadds',
-          subtitle: 'asdsadds'
-        },
         formData: {
           title: '卡片标题',
           subtitle: '卡片副标题',
