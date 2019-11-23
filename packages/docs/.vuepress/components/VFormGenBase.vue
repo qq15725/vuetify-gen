@@ -46,12 +46,12 @@
         form: {},
         items: [
           {
-            tag: 'text',
+            tag: 'input',
             name: 'name',
             label: 'post name',
             required: true
           },
-          { tag: 'v-divider' },
+          { tag: 'hr' },
           {
             tag: 'input',
             name: 'input',
@@ -66,13 +66,13 @@
             cols: 6
           },
           {
-            tag: 'number',
+            tag: 'number-input',
             name: 'number',
             label: 'xxx',
             placeholder: 'username label',
             cols: 6
           },
-          { tag: 'v-divider' },
+          { tag: 'hr' },
           {
             tag: 'select',
             name: 'select',
@@ -83,15 +83,15 @@
             ],
             cols: 12
           },
-          { tag: 'v-divider' },
+          { tag: 'hr' },
           {
-            tag: 'date',
+            tag: 'date-time-picker',
             name: 'date',
             label: '日期时间选择'
           },
-          { tag: 'v-divider' },
+          { tag: 'hr' },
           {
-            tag: 'date',
+            tag: 'date-time-picker',
             name: 'date',
             label: '日期选择',
             hideTime: true

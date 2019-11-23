@@ -1,5 +1,11 @@
 <template>
   <v-row>
+    <v-gen
+      v-bind="obj"
+    >
+    </v-gen>
+
+
     <v-col cols="6">
       <v-gen
         v-for="(item, index) in items"
@@ -31,6 +37,11 @@
   export default {
     data () {
       return {
+        obj: {
+          tag: 'product-card',
+          title: 'asdsadds',
+          subtitle: 'asdsadds'
+        },
         formData: {
           title: '卡片标题',
           subtitle: '卡片副标题',
@@ -43,47 +54,47 @@
         },
         formItems: [
           {
-            tag: 'text',
+            tag: 'input',
             name: 'title',
             label: '卡片标题'
           },
-          { tag: 'v-divider' },
+          { tag: 'hr' },
           {
-            tag: 'text',
+            tag: 'input',
             name: 'subtitle',
             label: '卡片副标题'
           },
-          { tag: 'v-divider' },
+          { tag: 'hr' },
           {
             tag: 'textarea',
             name: 'text',
             label: '卡片正文'
           },
-          { tag: 'v-divider' },
+          { tag: 'hr' },
           {
-            tag: 'text',
+            tag: 'input',
             name: 'href',
             label: '卡片链接'
           },
-          { tag: 'v-divider' },
+          { tag: 'hr' },
           {
             tag: 'text',
             name: 'cover.src',
             label: '卡片封面'
           },
-          { tag: 'v-divider' },
+          { tag: 'hr' },
           {
-            tag: 'number',
+            tag: 'number-input',
             name: 'cover.aspectRatio',
             label: '卡片封面宽高比'
           },
-          { tag: 'v-divider' },
+          { tag: 'hr' },
           {
             tag: 'text',
             name: 'sort',
             label: '排序'
           },
-          { tag: 'v-divider' },
+          { tag: 'hr' },
           {
             tag: 'checkbox',
             name: 'flat',

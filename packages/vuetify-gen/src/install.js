@@ -1,4 +1,4 @@
-export function install (Vue, { vuetify, components = {}, ...options }) {
+export function install (Vue, { vuetify, components = {}, mapping = {} }) {
   if (Vue.$_vuetify_gen_installed) return
   Vue.$_vuetify_gen_installed = true;
 
@@ -8,8 +8,7 @@ export function install (Vue, { vuetify, components = {}, ...options }) {
         const component = components[key]
         if (component.install) {
           Vue.use(component, {
-            vuetify,
-            ...options
+            vuetify
           })
         } else {
           Vue.component(key, component)
@@ -19,4 +18,6 @@ export function install (Vue, { vuetify, components = {}, ...options }) {
     }
     return false
   })(components)
+
+  Vue.$vuetifyGenMapping = Vue.prototype.$vuetifyGenMapping = mapping
 }

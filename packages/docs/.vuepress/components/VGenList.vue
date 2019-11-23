@@ -33,8 +33,12 @@
         formData: {
           items: [
             {
-              leftText: '左侧',
-              rightText: '右侧',
+              left: {
+                text: '左侧'
+              },
+              right: {
+                text: '右侧'
+              },
               title: '列表标题1',
               subtitle: '列表副标题1'
             },
@@ -46,43 +50,43 @@
         },
         formItems: [
           {
-            tag: 'text',
-            name: 'items.0.leftText',
+            tag: 'input',
+            name: 'items.0.left.text',
             label: '左侧文本1'
           },
-          { tag: 'v-divider' },
+          { tag: 'hr' },
           {
-            tag: 'text',
-            name: 'items.0.rightText',
+            tag: 'input',
+            name: 'items.0.right.text',
             label: '右侧文本1'
           },
-          { tag: 'v-divider' },
+          { tag: 'hr' },
           {
-            tag: 'text',
+            tag: 'input',
             name: 'items.0.href',
             label: '跳转链接1'
           },
-          { tag: 'v-divider' },
+          { tag: 'hr' },
           {
-            tag: 'text',
+            tag: 'input',
             name: 'items.0.title',
             label: '列表标题1'
           },
-          { tag: 'v-divider' },
+          { tag: 'hr' },
           {
-            tag: 'text',
+            tag: 'input',
             name: 'items.0.subtitle',
             label: '列表副标题1'
           },
-          { tag: 'v-divider' },
+          { tag: 'hr' },
           {
-            tag: 'text',
+            tag: 'input',
             name: 'items.1.title',
             label: '列表副标题2'
           },
-          { tag: 'v-divider' },
+          { tag: 'hr' },
           {
-            tag: 'text',
+            tag: 'input',
             name: 'items.1.subtitle',
             label: '列表副标题2'
           }

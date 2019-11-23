@@ -52,22 +52,24 @@ export default {
     }
 
     // alias mapping && extend data
-    let extend = this.$vuetifyGenMapping[(data.attrs || {}).is || tag]
-    if (extend) {
-      extend = typeof extend === 'function' ? extend(data) : extend
-      const { tag: extendTag, model: extendModel, children: extendChildren, ...extendData } = extend
-      if (extendModel) {
-        const { prop, event } = extendModel
-        this._b(data, '', { [prop]: (data.attrs || {}).value }, false)
-        this._g(data, { [event]: (data.on || {}).input })
-      }
-      tag = extendTag
-      this._b(data, '', extendData, false)
-      if (isDef(extendChildren)) {
-        if (Array.isArray(extendChildren)) {
-          children = extendChildren.map(attrs => typeof attrs === 'object' ? createElement('v-gen', { attrs }) : attrs)
-        } else {
-          children = extendChildren
+    if (this.$vuetifyGenMapping) {
+      let extend = this.$vuetifyGenMapping[(data.attrs || {}).is || tag]
+      if (extend) {
+        extend = typeof extend === 'function' ? extend(data) : extend
+        const { tag: extendTag, model: extendModel, children: extendChildren, ...extendData } = extend
+        if (extendModel) {
+          const { prop, event } = extendModel
+          this._b(data, '', { [prop]: (data.attrs || {}).value }, false)
+          this._g(data, { [event]: (data.on || {}).input })
+        }
+        tag = extendTag
+        this._b(data, '', extendData, false)
+        if (isDef(extendChildren)) {
+          if (Array.isArray(extendChildren)) {
+            children = extendChildren.map(attrs => typeof attrs === 'object' ? createElement('v-gen', { attrs }) : attrs)
+          } else {
+            children = extendChildren
+          }
         }
       }
     }
