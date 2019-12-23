@@ -1,6 +1,6 @@
 {
   "name": "vuetifyjs-gen.com",
-  "version": "0.0.36",
+  "version": "0.0.37",
   "private": true,
   "scripts": {
     "serve": "vuepress dev .",
@@ -12,7 +12,7 @@
     "qrcodejs2": "^0.0.2",
     "vue-the-mask": "^0.11.1",
     "vuetify": "^2.1.0",
-    "vuetify-gen": "^0.0.36"
+    "vuetify-gen": "^0.0.37"
   },
   "devDependencies": {
     "highlight.js": "^9.16.2",
