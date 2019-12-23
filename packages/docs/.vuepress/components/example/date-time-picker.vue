@@ -8,6 +8,8 @@
   <v-date-time-picker label="日期时间选择" v-model="dateTime"></v-date-time-picker>
 
   <v-date-time-picker label="日期选择" v-model="date" hide-time></v-date-time-picker>
+
+  <v-date-time-picker label="日期范围选择" v-model="dateRange" range></v-date-time-picker>
 </div>
 `
 
@@ -16,6 +18,7 @@
       return {
         dateTime: null,
         date: null,
+        dateRange: null,
         template
       }
     },

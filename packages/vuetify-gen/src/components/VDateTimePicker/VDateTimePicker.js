@@ -26,7 +26,7 @@ export default mixins(promiseable).extend({
     disabled: Boolean,
     maxWidth: {
       type: [Number, String],
-      default: 300
+      default: 320
     },
     locale: {
       type: String,
@@ -41,7 +41,8 @@ export default mixins(promiseable).extend({
     submit: Function,
     cancel: Function,
 
-    hideTime: Boolean
+    noTitle: Boolean,
+    hideTime: Boolean,
   },
   data () {
     let [date, time] = this.valueToDateTime(this.value)
@@ -161,70 +162,99 @@ export default mixins(promiseable).extend({
         }
       }, children)
     },
-    genPicker () {
+    genHeader () {
       const gen = this.$createElement
-      return gen(VCard, [
-        gen(VCardTitle, { class: 'pa-2' }, [
-          gen(VRow, {
-            props: {
-              dense: true
-            }
-          }, [
-            gen(VCol, [
-              gen(VTextField, {
-                props: {
-                  value: this.range ? this.date[0] : this.date,
-                  dense: true,
-                  outlined: true,
-                  hideDetails: true
-                },
-                on: {
-                  click: () => {
-                    if (!this.range) {
-                      this.tab = 0
-                    }
-                  },
-                  change: val => {
-                    if (!val) return
+
+      return gen(VCardTitle, { class: 'pa-2' }, [
+        gen(VRow, {
+          props: {
+            dense: true
+          }
+        }, [
+          gen(VCol, [
+            gen(VTextField, {
+              props: {
+                value: this.range ? this.date[0] : this.date,
+                dense: true,
+                outlined: true,
+                hideDetails: true
+              },
+              on: {
+                click: () => this.tab = 0,
+                change: val => {
+                  if (!val) return
+                  const date = parseTime(new Date(val), '{y}-{m}-{d}')
+                  if (date === '0-0-0') return
+                  if (this.range) {
+                    this.$set(this.date, 0, date)
+                  } else {
+                    this.date = date
+                  }
+                }
+              }
+            })
+          ]),
+          !this.hideTime && gen(VCol, [
+            gen(VTextField, {
+              props: {
+                value: this.range ? this.date[1] : this.time,
+                dense: true,
+                outlined: true,
+                hideDetails: true
+              },
+              on: {
+                click: () => this.tab = 1,
+                change: val => {
+                  if (!val) return
+                  if (this.range) {
                     const date = parseTime(new Date(val), '{y}-{m}-{d}')
                     if (date === '0-0-0') return
-                    if (this.range) {
-                      this.$set(this.date, 0, date)
-                    } else {
-                      this.date = date
-                    }
+                    this.$set(this.date, 1, date)
+                  } else {
+                    this.time = parseTime(new Date(`${this.date} ${val}`), '{h}:{i}:{s}')
                   }
                 }
-              })
-            ]),
-            !this.hideTime && gen(VCol, [
-              gen(VTextField, {
-                props: {
-                  value: this.range ? this.date[1] : this.time,
-                  dense: true,
-                  outlined: true,
-                  hideDetails: true
-                },
-                on: {
-                  click: () => {
-                    if (!this.range) {
-                      this.tab = 1
-                    }
-                  },
-                  change: val => {
-                    if (val) return
-                    const time = parseTime(new Date(`${this.date} ${val}`), '{h}:{i}:{s}')
-                    if (this.range) {
-                      this.$set(this.date, 1, time)
-                    } else {
-                      this.time = time
-                    }
-                  }
-                }
-              })
-            ])
-          ]),
+              }
+            })
+          ])
         ]),
+      ])
+    },
+    genFooter () {
+      const gen = this.$createElement
+
+      return gen(VCardActions, { class: 'justify-end' }, [
+        gen(VBtn, {
+          props: {
+            color: 'primary',
+            small: true,
+            dark: true,
+            depressed: true
+          },
+          on: {
+            click: this.onSubmit
+          }
+        }, '确定'),
+
+        gen(VBtn, {
+          props: {
+            color: 'primary',
+            small: true,
+            dark: true,
+            depressed: true,
+            outlined: true
+          },
+          on: {
+            click: this.onCancel
+          }
+        }, '取消'),
+      ])
+    },
+    genPicker () {
+      const gen = this.$createElement
+
+      return gen(VCard, [
+        this.genHeader(),
 
         gen(VDivider),
 
@@ -236,75 +266,78 @@ export default mixins(promiseable).extend({
           gen(VTabItem, [
             gen(VDatePicker, {
               class: 'elevation-0',
+              style: {
+                borderRadius: 0
+              },
               props: {
-                value: this.date,
-                noTitle: true,
+                value: this.range ? this.date[0] : this.date,
                 fullWidth: true,
                 scrollable: true,
                 locale: this.locale,
                 min: this.min,
                 max: this.max,
                 allowedDates: this.allowedDates,
-                range: this.range
+                noTitle: this.noTitle,
               },
               on: {
                 input: val => {
-                  if (!this.range && !this.hideTime) {
+                  if (this.range || !this.hideTime) {
                     this.tab = 1
                   }
-                  this.date = val
+                  if (this.range) {
+                    this.$set(this.date, 0, val)
+                  } else {
+                    this.date = val
+                  }
                 }
               }
             })
           ]),
           !this.hideTime && gen(VTabItem, [
-            gen(VTimePicker, {
-              class: 'elevation-0',
-              props: {
-                value: this.time,
-                noTitle: true,
-                format: '24hr',
-                fullWidth: true,
-                scrollable: true,
-                useSeconds: true,
-                locale: this.locale
-              },
-              on: {
-                input: val => {
-                  this.time = val
+            this.range
+              ? gen(VDatePicker, {
+                class: 'elevation-0',
+                style: {
+                  borderRadius: 0
+                },
+                props: {
+                  value: this.date[1],
+                  fullWidth: true,
+                  scrollable: true,
+                  locale: this.locale,
+                  min: this.date[0] || this.min,
+                  max: this.max,
+                  allowedDates: this.allowedDates,
+                  noTitle: this.noTitle,
+                },
+                on: {
+                  input: val => this.$set(this.date, 1, val)
                 }
-              }
-            })
+              })
+              : gen(VTimePicker, {
+                class: 'elevation-0',
+                style: {
+                  borderRadius: 0
+                },
+                props: {
+                  value: this.time,
+                  format: '24hr',
+                  fullWidth: true,
+                  scrollable: true,
+                  useSeconds: true,
+                  locale: this.locale,
+                  noTitle: this.noTitle,
+                },
+                on: {
+                  input: val => this.time = val
+                }
+              })
           ])
         ]),
 
         gen(VDivider),
 
-        gen(VCardActions, { class: 'justify-end' }, [
-          gen(VBtn, {
-            props: {
-              color: 'primary',
-              small: true,
-              dark: true,
-              depressed: true
-            },
-            on: {
-              click: this.onSubmit
-            }
-          }, '确定'),
-          gen(VBtn, {
-            props: {
-              color: 'primary',
-              small: true,
-              dark: true,
-              depressed: true,
-              outlined: true
-            },
-            on: {
-              click: this.onCancel
-            }
-          }, '取消'),
-        ])
+        this.genFooter(),
       ])
     }
   },

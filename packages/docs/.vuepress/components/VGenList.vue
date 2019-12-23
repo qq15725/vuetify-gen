@@ -1,29 +1,34 @@
 <template>
-  <v-row>
-    <v-col cols="6">
-      <v-gen
-        v-for="(item, index) in items"
-        :key="index"
-        v-bind="item"
-      >
-      </v-gen>
-
-      <pre class="white--text">{{ items }}</pre>
-    </v-col>
-    <v-col cols="6">
-      <v-card>
-        <v-form-gen
-          v-model="formData"
-          :items="formItems"
-          single-line
-          hide-details
-          full-width
-          no-gutters
+  <v-container>
+    <v-row>
+      <v-col cols="6">
+        <v-gen
+          v-bind="item"
         >
-        </v-form-gen>
-      </v-card>
-    </v-col>
-  </v-row>
+        </v-gen>
+      </v-col>
+      <v-col cols="6">
+        <v-card>
+          <v-form-gen
+            v-model="formData"
+            :items="formItems"
+            single-line
+            hide-details
+            full-width
+            no-gutters
+          >
+          </v-form-gen>
+        </v-card>
+      </v-col>
+
+      <v-col cols="12">
+        <v-card>
+          <v-card-title>JSON</v-card-title>
+          <v-json-editor :value="item"></v-json-editor>
+        </v-card>
+      </v-col>
+    </v-row>
+  </v-container>
 </template>
 
 <script>
@@ -94,13 +99,11 @@
       }
     },
     computed: {
-      items () {
-        return [
-          {
-            tag: 'list',
-            ...this.formData
-          }
-        ]
+      item () {
+        return {
+          tag: 'list',
+          ...this.formData
+        }
       }
     }
   }
