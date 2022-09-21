@@ -11,7 +11,7 @@
     "material-design-icons-iconfont": "^5.0.1",
     "qrcodejs2": "^0.0.2",
     "vue-the-mask": "^0.11.1",
-    "vuetify": "^2.1.0",
+    "vuetify": "^2.6.10",
     "vuetify-gen": "^0.0.37"
   },
   "devDependencies": {
