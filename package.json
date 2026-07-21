@@ -5,6 +5,6 @@
     "docs:build": "lerna run build --scope vuetifyjs-gen.com --stream"
   },
   "devDependencies": {
-    "lerna": "^3.15.0"
+    "lerna": "^9.0.7"
   }
 }
